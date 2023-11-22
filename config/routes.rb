@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  devise_for :users
   root to: "pdfs#index" # syntax for devise gem for user related info
 
   # Routes for the Tag resource:
