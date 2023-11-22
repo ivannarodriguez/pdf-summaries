@@ -1,0 +1,101 @@
+<div>
+  <div>
+    <h1>
+      Pdf #<%= @the_pdf.id %> details
+    </h1>
+
+    <div>
+      <div>
+        <a href="/pdfs">
+          Go back
+        </a>
+      </div>
+
+      <div>
+        <a href="/delete_pdf/<%= @the_pdf.id %>">
+          Delete pdf
+        </a>
+      </div>
+    </div>
+
+    <dl>
+      <dt>
+        Title
+      </dt>
+      <dd>
+        <%= @the_pdf.title %>
+      </dd>
+
+      <dt>
+        Url
+      </dt>
+      <dd>
+        <%= @the_pdf.url %>
+      </dd>
+
+      <dt>
+        Summary
+      </dt>
+      <dd>
+        <%= @the_pdf.summary %>
+      </dd>
+
+      <dt>
+        Created at
+      </dt>
+      <dd>
+        <%= time_ago_in_words(@the_pdf.created_at) %> ago
+      </dd>
+
+      <dt>
+        Updated at
+      </dt>
+      <dd>
+        <%= time_ago_in_words(@the_pdf.updated_at) %> ago
+      </dd>
+    </dl>
+  </div>
+</div>
+
+<hr>
+
+
+<div>
+  <div>
+    <h2>
+      Edit pdf
+    </h2>
+
+    <form action="/modify_pdf/<%= @the_pdf.id %>"  method="post" >
+      <div>
+        <label for="title_box">
+          Title
+        </label>
+
+        <input type="text" id="title_box" name="query_title" value="<%= @the_pdf.title %>">
+      </div>
+
+      <div>
+        <label for="url_box">
+          Url
+        </label>
+
+        <input type="text" id="url_box" name="query_url" value="<%= @the_pdf.url %>">
+      </div>
+
+      <div>
+        <label for="summary_box">
+          Summary
+        </label>
+
+        <input type="text" id="summary_box" name="query_summary" value="<%= @the_pdf.summary %>">
+      </div>
+
+      <button>
+        Update pdf
+      </button>
+    </form>
+  </div>
+</div>
+
+<hr>
