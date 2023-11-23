@@ -2,6 +2,8 @@ Rails.application.routes.draw do
   devise_for :users
   root to: "pdfs#index" # syntax for devise gem for user related info
 
+  get("/new", {:controller=>"pdfs", :action=>"new_summary"})
+
   # Routes for the Tag resource:
 
   # CREATE

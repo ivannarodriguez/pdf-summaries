@@ -7,6 +7,10 @@ class PdfsController < ApplicationController
     render({ :template => "pdfs/index" })
   end
 
+  def new_summary
+    render({:template => "pdfs/new_summary"})
+  end
+
   def show
     the_id = params.fetch("path_id")
 

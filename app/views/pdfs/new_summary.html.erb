@@ -1,0 +1,65 @@
+<div>
+
+  <h2>
+    New Summary
+  </h2>
+
+  <!--upload pdf file form-->
+  <div>
+    <form action="/insert_pdf" method="post" enctype="multipart/form-data">
+        <label for="pdf_file">Upload PDF</label>
+        <input type="file" id="pdf_file" name="pdf_file">
+
+        <label for="title_box">Title</label>
+        <input type="text" id="title_box" name="query_title">
+      <button>Add PDF</button>
+    </form>
+  </div>
+
+  <!--enter pdf link form-->
+  <div>
+    <form action="/insert_pdf_url" method="post">
+        <label for="url_box">PDF URL</label>
+        <input type="url" id="url_box" name="query_url" placeholder="https://example.com">
+        <label for="title_url_box">Title</label>
+        <input type="text" id="title_url_box" name="query_title_url">
+      <button>Add PDF</button>
+    </form>
+  </div>
+
+  <!--Empty text box for summary-->
+  <div>
+    <textarea rows="4" cols="50" placeholder="Summary will be displayed here..."></textarea>
+  </div>
+
+  <!-- TAGS -->
+  <!-- first dropdown with "Enter New" option -->
+  <label for="dropdown2">Topic title:</label>
+  <select id="dropdown2" onchange="checkEnterNew(this)">
+      <option value="optionA">Option A</option>
+      <option value="optionB">Option B</option>
+      <option value="optionC">Option C</option>
+      <option value="enterNew">Enter New:</option>
+  </select>
+  <!-- Input field for manual entry, initially hidden -->
+  <input type="text" id="newOption" style="display:none;">
+  <br>
+
+  <script>
+  // JavaScript function to show/hide the manual entry field based on the selected option
+  function checkEnterNew(selectElement) {
+      var newOptionField = document.getElementById('newOption');
+      newOptionField.style.display = (selectElement.value === 'enterNew') ? 'block' : 'none';
+  }
+  </script>
+
+  <!-- TAGS: dropdown without "Enter New" option -->
+  <label for="dropdown1">Topic tag color:</label>
+  <select id="dropdown1">
+      <option value="option1">Blue</option>
+      <option value="option2">Green</option>
+      <option value="option3">Orange</option>
+  </select>
+  <br>
+
+</div>
