@@ -1,4 +1,5 @@
 class TagsController < ApplicationController
+  before_action :authenticate_user!
   def index
     matching_tags = Tag.all
 

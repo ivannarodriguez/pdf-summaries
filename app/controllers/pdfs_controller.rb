@@ -1,4 +1,5 @@
 class PdfsController < ApplicationController
+  before_action :authenticate_user!
   def index
     matching_pdfs = Pdf.all
 
@@ -8,6 +9,7 @@ class PdfsController < ApplicationController
   end
 
   def new_summary
+    @list_of_tags = current_user.tags
     render({:template => "pdfs/new_summary"})
   end
 
