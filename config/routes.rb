@@ -1,4 +1,23 @@
 Rails.application.routes.draw do
+  # Routes for the Pdf tag resource:
+
+  # CREATE
+  post("/save_summary", { :controller => "pdfs", :action => "create" })
+          
+  # READ
+  get("/pdf_tags", { :controller => "pdf_tags", :action => "index" })
+  
+  get("/pdf_tags/:path_id", { :controller => "pdf_tags", :action => "show" })
+  
+  # UPDATE
+  
+  post("/modify_pdf_tag/:path_id", { :controller => "pdf_tags", :action => "update" })
+  
+  # DELETE
+  get("/delete_pdf_tag/:path_id", { :controller => "pdf_tags", :action => "destroy" })
+
+  #------------------------------
+
   devise_for :users
   root to: "pdfs#index" # syntax for devise gem for user related info
 
@@ -7,7 +26,7 @@ Rails.application.routes.draw do
   # Routes for the Tag resource:
 
   # CREATE
-  post("/insert_tag", { :controller => "tags", :action => "create" })
+  # post("/insert_tag", { :controller => "tags", :action => "create" })
           
   # READ
   get("/tags", { :controller => "tags", :action => "index" })

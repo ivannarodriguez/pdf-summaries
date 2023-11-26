@@ -6,63 +6,67 @@
 
   <!--upload pdf file form-->
   <div>
-    <form action="/insert_pdf" method="post" enctype="multipart/form-data">
+    <form action="/get_summary" method="post" enctype="multipart/form-data" id="pdfForm">
         <label for="pdf_file">Upload PDF</label>
-        <input type="file" id="pdf_file" name="pdf_file">
-
-        <label for="title_box">Title</label>
-        <input type="text" id="title_box" name="query_title">
-      <button>Add PDF</button>
+        <input type="file" id="pdf_file" name="pdf_file" accept=".pdf">
+        <button type="button" onclick="processPdf()">Get summary</button> <!-- javascript so that upon pressing button, summary box will be populated-->
     </form>
   </div>
-
+  <p>or</p>
   <!--enter pdf link form-->
   <div>
-    <form action="/insert_pdf_url" method="post">
+    <form action="/get_summary" method="post" id="pdfUrlForm">
         <label for="url_box">PDF URL</label>
-        <input type="url" id="url_box" name="query_url" placeholder="https://example.com">
-        <label for="title_url_box">Title</label>
-        <input type="text" id="title_url_box" name="query_title_url">
-      <button>Add PDF</button>
+        <input type="url" id="url_box" name="pdf_url" placeholder="https://example.com">
+        <button type="button" onclick="processPdfUrl()">Get summary</button> <!-- javascript so that upon pressing button, summary box will be populated-->
     </form>
   </div>
 
-  <!--Empty text box for summary-->
+  <!--Empty read-only text box for summary-->
   <div>
-    <textarea rows="4" cols="50" placeholder="Summary will be displayed here..."></textarea>
+    <textarea rows="7" cols="80" id="summaryTextbox" readonly placeholder="Summary will be displayed here..."></textarea>
   </div>
 
-  <!-- TAGS -->
-  <!-- first dropdown with "Enter New" option -->
+  <!-- SAVE PDF + TAGS -->
   <div>
-    <label for="tag-name-dropdown">Topic title:</label>
-    <select id="tag-name-dropdown" onchange="checkEnterNew(this)">
-      <% @list_of_tags.each do |a_tag| %>
-        <option value="<%= a_tag.name %>"><%= a_tag.name %></option>
-      <% end %>
-      <option value="enterNew">Enter New:</option>
-    </select>
+    <form action="/save_summary" method="post">
+      <!-- pdf title -->
+      <label for="title_box">PDF Title</label>
+      <input type="text" id="title_box" name="pdf_title">
+      <br>
 
-  <!-- Input field for manual entry, initially hidden -->
-  <input type="text" id="newOption" style="display:none;">
+      <!-- first dropdown-- tag title with "Enter New" option -->
+      <label for="tag-name-dropdown">Topic tag:</label>
+      <select id="tag-name-dropdown" name="tag_name" onchange="checkEnterNew(this)">
+        <% @list_of_tags.each do |a_tag| %>
+          <option value="<%= a_tag.name %>"><%= a_tag.name %></option>
+        <% end %>
+        <option value="example-tag">example tag</option>
+        <option value="enterNew">Enter New:</option>
+      </select>
 
-  <script>
-    // JavaScript function to show/hide the manual entry field based on the selected option
-    function checkEnterNew(selectElement) {
-      var newOptionField = document.getElementById('newOption');
-      newOptionField.style.display = (selectElement.value === 'enterNew') ? 'block' : 'none';
-    }
-  </script>
-  
-    <br>
-    <!-- TAGS: dropdown without "Enter New" option -->
-    <label for="tag-color-dropdown">Topic tag color:</label>
-    <select id="tag-color-dropdown">
-        <option value="color1">Blue</option>
-        <option value="color2">Green</option>
-        <option value="color3">Orange</option>
-    </select>
-    <br>
+      <!-- Input field for manual entry, initially hidden -->
+      <input type="text" id="newOption" style="display:none;">
+      <br>
+
+      <!-- second dropdown-- tag color without "Enter New" option -->
+      <label for="tag-color-dropdown">Topic tag color:</label>
+      <select id="tag-color-dropdown" name="tag_color">
+          <option value="color1">Blue</option>
+          <option value="color2">Green</option>
+          <option value="color3">Orange</option>
+      </select>
+      <br>
+      <button> Save summary </button>
+    </form>
   </div>
 
 </div>
+
+<script>
+  // JavaScript function to show/hide the manual entry field based on the selected option
+function checkEnterNew(selectElement) {
+  var newOptionField = document.getElementById('newOption');
+  newOptionField.style.display = (selectElement.value === 'enterNew') ? 'inline-block' : 'none';
+}
+</script>

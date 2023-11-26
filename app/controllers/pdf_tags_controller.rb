@@ -18,6 +18,14 @@ class PdfTagsController < ApplicationController
   end
 
   def create
+    # needs to fetch the PDF object input by the user somehow
+        # maybe the "Add PDF" button will create a new PDF object with the URL attirbute and all of that that we can access here? but how?
+        # 
+        # maybe Pdf_tag.where({:pdf_id=>the_id})
+    # then it needs to create a new tag with the query_title and query_color
+    # it needs to assign these values for title and color to the pdf.tag.title and pdf.tag.color values
+    # then it would create a new pdf_tags object, so like a row in the join table?
+
     the_pdf_tag = PdfTag.new
     the_pdf_tag.pdf_id = params.fetch("query_pdf_id")
     the_pdf_tag.tag_id = params.fetch("query_tag_id")
