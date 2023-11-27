@@ -28,6 +28,11 @@
     <textarea rows="7" cols="80" id="summary_textbox" readonly name="summary_text" placeholder="Summary will be displayed here..."></textarea>
   </div>
 
+  <!--test try the summary filed to see if pdf parser works-->
+  <div>
+  <p> <%= @text[0..700] %> </p>
+  </div>
+
   <!-- SAVE PDF + TAGS -->
   <div>
     <form action="/save_summary" method="post">

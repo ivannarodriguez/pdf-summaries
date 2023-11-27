@@ -86,6 +86,9 @@ gem "table_print"
 # open-ai api gem
 gem "ruby-openai"
 
+# pdf reader
+gem "pdf-reader"
+
 group :development do
   gem "annotate"
   gem "better_errors"

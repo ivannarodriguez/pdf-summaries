@@ -1,3 +1,5 @@
+require 'pdf/reader'
+
 class PdfsController < ApplicationController
   before_action :authenticate_user!
   def index
@@ -23,11 +25,27 @@ class PdfsController < ApplicationController
     render({ :template => "pdfs/show" })
   end
 
+  # ----------------------- things im trying here ---------------------------
+
+  def summarize
+    @pdf_url = params[:pdf_url]
+    
+    reader = PDF::Reader.new(@pdf_url)
+    @text = ""
+
+    reader.pages.each do |page|
+      @text += page.text
+    end
+
+    render({:template => "/pdfs/new_summary_final"})
+  end
+
   def create
     the_pdf = Pdf.new
     the_pdf.title = params.fetch("query_title")
     the_pdf.url = params.fetch("query_url")
-    the_pdf.summary = params.fetch("query_summary")
+    the_pdf.summary = params.fetch("
+    ")
 
     if the_pdf.valid?
       the_pdf.save
