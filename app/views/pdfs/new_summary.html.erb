@@ -23,6 +23,13 @@
   </div>
 
   <!--Empty read-only text box for summary-->
+  <!-- 
+      make this change based on param values so you can render the same page 
+      so, you'd add an ifelse to check it the param values are empty. if they are,
+      then just display the read only box. if they are not (i.e. user has input a pdf
+      link) then display the contents in a new textbox, and this will happen every time the
+      get summary button is clicked. 
+  -->
   <div>
     <textarea rows="7" cols="80" id="summary_textbox" readonly name="summary_text" placeholder="Summary will be displayed here..."></textarea>
   </div>
