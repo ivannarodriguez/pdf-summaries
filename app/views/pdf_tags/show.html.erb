@@ -1,0 +1,86 @@
+<div>
+  <div>
+    <h1>
+      Pdf tag #<%= @the_pdf_tag.id %> details
+    </h1>
+
+    <div>
+      <div>
+        <a href="/pdf_tags">
+          Go back
+        </a>
+      </div>
+
+      <div>
+        <a href="/delete_pdf_tag/<%= @the_pdf_tag.id %>">
+          Delete pdf tag
+        </a>
+      </div>
+    </div>
+
+    <dl>
+      <dt>
+        Pdf
+      </dt>
+      <dd>
+        <%= @the_pdf_tag.pdf_id %>
+      </dd>
+
+      <dt>
+        Tag
+      </dt>
+      <dd>
+        <%= @the_pdf_tag.tag_id %>
+      </dd>
+
+      <dt>
+        Created at
+      </dt>
+      <dd>
+        <%= time_ago_in_words(@the_pdf_tag.created_at) %> ago
+      </dd>
+
+      <dt>
+        Updated at
+      </dt>
+      <dd>
+        <%= time_ago_in_words(@the_pdf_tag.updated_at) %> ago
+      </dd>
+    </dl>
+  </div>
+</div>
+
+<hr>
+
+
+<div>
+  <div>
+    <h2>
+      Edit pdf tag
+    </h2>
+
+    <form action="/modify_pdf_tag/<%= @the_pdf_tag.id %>"  method="post" >
+      <div>
+        <label for="pdf_id_box">
+          Pdf
+        </label>
+
+        <input type="text" id="pdf_id_box" name="query_pdf_id" value="<%= @the_pdf_tag.pdf_id %>">
+      </div>
+
+      <div>
+        <label for="tag_id_box">
+          Tag
+        </label>
+
+        <input type="text" id="tag_id_box" name="query_tag_id" value="<%= @the_pdf_tag.tag_id %>">
+      </div>
+
+      <button>
+        Update pdf tag
+      </button>
+    </form>
+  </div>
+</div>
+
+<hr>

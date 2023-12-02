@@ -1,42 +1,41 @@
 <div>
 
   <h2>
-    New Summary
+    New Summary Results
   </h2>
 
-  <!--upload pdf file form-->
+<!--  upload pdf file form-->
   <div>
     <form action="/get_summary" method="post" enctype="multipart/form-data" id="pdfForm">
         <label for="pdf_file">Upload PDF</label>
         <input type="file" id="pdf_file" name="pdf_file" accept=".pdf">
-        <button type="button" onclick="processPdf()">Get summary</button> <!-- javascript so that upon pressing button, summary box will be populated-->
-    </form>
-  </div>
-  <p>or</p>
-  <!--enter pdf link form-->
-  <div>
-    <form action="/get_summary" method="post" id="pdfUrlForm">
-        <label for="url_box">PDF URL</label>
-        <input type="url" id="url_box" name="pdf_url" placeholder="https://example.com">
-<!--        <button type="button" onclick="processPdfUrl('Hello world!')">Get summary</button> <!-- javascript so that upon pressing button, summary box will be populated-->
         <button>Get summary</button>
     </form>
   </div>
-
-  <!--Empty read-only text box for summary-->
+  <p>or</p>
+<!--  enter pdf link form-->
   <div>
-    <textarea rows="7" cols="80" id="summary_textbox" readonly name="summary_text" placeholder="Summary will be displayed here..."></textarea>
+    <form action="/get_summary" method="post" id="pdfUrlForm">
+        <label for="url_box">PDF URL</label>
+        <input type="url" id="url_box" name="pdf_url" placeholder=<%=@pdf_url%>>
+        <button type="button">Get summary</button> 
+    </form>
   </div>
 
-  <!--test try the summary filed to see if pdf parser works-->
+<!--  test try the summary filed to see if pdf parser works-->
   <div>
-  <p> <%= @text[0..700] %> </p>
+  <p> something should be printing here..... <p>
   </div>
 
-  <!-- SAVE PDF + TAGS -->
+
+<!--  Empty read-only text box for summary-->
+  <div>
+    <textarea rows="7" cols="80" id="summary_textbox" readonly name="summary_text" placeholder=<%=@pdf_url%>></textarea>
+  </div>
+
+<!--   SAVE PDF + TAGS -->
   <div>
     <form action="/save_summary" method="post">
-      <!-- pdf title -->
       <label for="title_box">PDF Title</label>
       <input type="text" id="title_box" name="pdf_title">
       <br>

@@ -1,20 +1,4 @@
 Rails.application.routes.draw do
-  # Routes for the Pdf tag resource:
-
-  # CREATE
-  post("/save_summary", { :controller => "pdfs", :action => "create" })
-          
-  # READ
-  get("/pdf_tags", { :controller => "pdf_tags", :action => "index" })
-  
-  get("/pdf_tags/:path_id", { :controller => "pdf_tags", :action => "show" })
-  
-  # UPDATE
-  
-  post("/modify_pdf_tag/:path_id", { :controller => "pdf_tags", :action => "update" })
-  
-  # DELETE
-  get("/delete_pdf_tag/:path_id", { :controller => "pdf_tags", :action => "destroy" })
 
   #------------------------------
 
@@ -22,6 +6,8 @@ Rails.application.routes.draw do
   root to: "pdfs#index" # syntax for devise gem for user related info
 
   get("/new", {:controller=>"pdfs", :action=>"new_summary"})
+  post("/get_summary", {:controller => "pdfs", :action => "create_summary"}) 
+  get("/new/summary", {:controller=>"pdfs", :action=>"show_summary"})
 
   # Routes for the Tag resource:
 
@@ -39,6 +25,25 @@ Rails.application.routes.draw do
   
   # DELETE
   get("/delete_tag/:path_id", { :controller => "tags", :action => "destroy" })
+
+  # ----------------------------
+    # Routes for the Pdf tag resource:
+
+  # CREATE
+  post("/save_summary", { :controller => "pdfs", :action => "create" })
+          
+  # READ
+  get("/pdf_tags", { :controller => "pdf_tags", :action => "index" })
+  
+  get("/pdf_tags/:path_id", { :controller => "pdf_tags", :action => "show" })
+  
+  # UPDATE
+  
+  post("/modify_pdf_tag/:path_id", { :controller => "pdf_tags", :action => "update" })
+  
+  # DELETE
+  get("/delete_pdf_tag/:path_id", { :controller => "pdf_tags", :action => "destroy" })
+
 
   #------------------------------
 
@@ -66,5 +71,5 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "articles#index"
 
-  get("/", {:controller => "library", :action => "index"})
+  # get("/", {:controller => "library", :action => "index"})
 end
