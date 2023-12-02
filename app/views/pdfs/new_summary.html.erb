@@ -15,7 +15,7 @@
   <p>or</p>
   <!--enter pdf link form-->
   <div>
-    <form action="/get_summary" method="post" id="pdfUrlForm">
+    <form action="/create_summary" method="post" id="pdfUrlForm">
         <label for="url_box">PDF URL</label>
         <input type="url" id="url_box" name="pdf_url" placeholder="https://example.com">
         <button>Get summary</button>
@@ -30,9 +30,18 @@
       link) then display the contents in a new textbox, and this will happen every time the
       get summary button is clicked. 
   -->
-  <div>
-    <textarea rows="7" cols="80" id="summary_textbox" readonly name="summary_text" placeholder="Summary will be displayed here..."></textarea>
-  </div>
+
+  <% if @pdf_url.present? %>
+    <div>
+      <textarea rows="7" cols="80" id="summary_textbox" readonly name="summary_text">
+        <%=@pdf_url%>
+      </textarea>
+    </div>
+  <% else %>
+    <div>
+      <textarea rows="7" cols="80" id="summary_textbox" readonly name="summary_text" placeholder="Summary will be displayed here..."></textarea>
+    </div>
+  <% end %>
 
   <!-- SAVE PDF + TAGS -->
   <div>

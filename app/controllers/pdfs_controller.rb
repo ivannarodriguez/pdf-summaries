@@ -11,23 +11,33 @@ class PdfsController < ApplicationController
 
   def new_summary
     @list_of_tags = current_user.tags
+    @pdf_url = session[:pdf_url]
     render({:template => "pdfs/new_summary"})
   end
 
-  # def show
-  #   the_id = params.fetch("path_id")
-  #   matching_pdfs = Pdf.where({ :id => the_id })
-  #   @the_pdf = matching_pdfs.at(0)
-  #   render({ :template => "pdfs/show" })
-  # end
-
-  # ----------------------- things im trying here ---------------------------
   def create_summary
     @pdf_url = params[:pdf_url]
     session[:pdf_url] = @pdf_url
-    redirect_to("/new/summary")
-    
-    # # --- if the user inputs a pdf url then this
+    redirect_to("/new")
+  end
+
+  def start_new_summary
+    session.store(:pdf_url, nil)
+    redirect_to("/new")
+  end
+
+  # def get_summary
+  #   @pdf_url = params[:pdf_url]
+  #   session[:pdf_url] = @pdf_url
+  #   redirect_to("/new/summary")
+  # end
+
+  # def show_summary
+  #   @pdf_url = session[:pdf_url]
+  #   render({:template => "pdfs/new_summary_final"})
+  # end
+
+      # # --- if the user inputs a pdf url then this
     # @pdf_url = params[:pdf_url]
     # @list_of_tags = current_user.tags
 
@@ -43,12 +53,13 @@ class PdfsController < ApplicationController
     # else
     #   flash[:error] = "No file uploaded"
     # end
-  end
 
-  def show_summary
-    @pdf_url = session[:pdf_url]
-    render({:template => "pdfs/new_summary_final"})
-  end
+  # def show
+  #   the_id = params.fetch("path_id")
+  #   matching_pdfs = Pdf.where({ :id => the_id })
+  #   @the_pdf = matching_pdfs.at(0)
+  #   render({ :template => "pdfs/show" })
+  # end
 
 
   def create
