@@ -17,20 +17,16 @@
   <div>
     <form action="/get_summary" method="post" id="pdfUrlForm">
         <label for="url_box">PDF URL</label>
-        <input type="url" id="url_box" name="pdf_url" placeholder=<%=@pdf_url%>>
+        <input type="url" id="url_box" name="pdf_url" value=<%=@pdf_url%>>
         <button type="button">Get summary</button> 
     </form>
   </div>
 
-<!--  test try the summary filed to see if pdf parser works-->
-  <div>
-  <p> something should be printing here..... <p>
-  </div>
-
-
 <!--  Empty read-only text box for summary-->
   <div>
-    <textarea rows="7" cols="80" id="summary_textbox" readonly name="summary_text" placeholder=<%=@pdf_url%>></textarea>
+    <textarea rows="7" cols="80" id="summary_textbox" name="summary_text">
+    <%=@pdf_url%>
+    </textarea>
   </div>
 
 <!--   SAVE PDF + TAGS -->
