@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_12_03_050754) do
+ActiveRecord::Schema[7.0].define(version: 2023_12_03_051206) do
   create_table "pdf_tags", force: :cascade do |t|
     t.integer "pdf_id", null: false
     t.integer "tag_id", null: false
@@ -28,6 +28,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_03_050754) do
     t.datetime "updated_at", null: false
     t.integer "user_id", null: false
     t.boolean "saved", default: false
+    t.text "parsed_text"
     t.index ["user_id"], name: "index_pdfs_on_user_id"
   end
 

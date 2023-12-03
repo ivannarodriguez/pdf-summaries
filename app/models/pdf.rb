@@ -2,14 +2,15 @@
 #
 # Table name: pdfs
 #
-#  id         :integer          not null, primary key
-#  saved      :boolean          default(FALSE)
-#  summary    :string
-#  title      :string
-#  url        :string
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  user_id    :integer          not null
+#  id          :integer          not null, primary key
+#  parsed_text :text
+#  saved       :boolean          default(FALSE)
+#  summary     :string
+#  title       :string
+#  url         :string
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  user_id     :integer          not null
 #
 # Indexes
 #
@@ -24,4 +25,5 @@ class Pdf < ApplicationRecord
   has_many :pdf_tags
   has_many :tags, through: :pdf_tags
   attribute :saved, :boolean, default: false
+  attribute :parsed_text, :text
 end
