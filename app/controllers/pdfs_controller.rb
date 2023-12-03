@@ -5,9 +5,8 @@ class PdfsController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    matching_pdfs = Pdf.where({ :saved => true })
+    matching_pdfs = Pdf.includes(:tags).where({:saved => true, :user_id => current_user.id})
     @list_of_pdfs = matching_pdfs.order({ :created_at => :desc })
-    # @pdf_tags = PDF.tag.where({})
     render({ :template => "pdfs/index" })
   end
 

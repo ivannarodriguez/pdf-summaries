@@ -4,78 +4,43 @@
     <a href="/start_new_summary" class="btn btn-outline-dark btn-lg">+ Add New Summary</a>
   </div>
 
-    <div>
-      <h1>My Library</h1>
-    </div>
-  
-  <hr>
+  <div>
+    <h1>My Library</h1>
+  </div>
 
   <div>
     <div>
-      <table border="1">
+      <table class="table table-responsive">
         <tr>
-          <th>
-            ID
-          </th>
-
-          <th>
-            Title
-          </th>
-
-          <th>
-            Url
-          </th>
-
-          <th>
-            Summary
-          </th>
-
-          <th>
-            Created at
-          </th>
-
-          <th>
-            Updated at
-          </th>
-
-          <th>
-          </th>
+          <th>Tags</th>
+          <th>Title</th>
+          <th>URL</th>
+          <th>Summary</th>
+          <th>Updated at</th>
+          <th></th>
         </tr>
 
-        <% @list_of_pdfs.each do |a_pdf| %>
-        <tr>
-          <td>
-            <%= a_pdf.id %>
-          </td>
+      <% @list_of_pdfs.each do |a_pdf| %>
+      <tr>
+        <td>
+          <% a_pdf.tags.each do |tag| %>
+            <span class="btn btn-sm" style="cursor: default; color:white; background-color: <%= tag.color %>; margin-right: 5px;">
+              <%= tag.name %>
+            </span>
+          <% end %>
+        </td>
+        <td><%= a_pdf.title %></td>
+        <td><%= a_pdf.url %></td>
+        <td><%= a_pdf.summary %></td>
+        <td><%= time_ago_in_words(a_pdf.updated_at) %> ago</td>
+        <td>
+          <a href="/pdfs/<%= a_pdf.id %>">Delete</a>
+        </td>
+      </tr>
+      <% end %>
+    </table>
 
-          <td>
-            <%= a_pdf.title %>
-          </td>
-
-          <td>
-            <%= a_pdf.url %>
-          </td>
-
-          <td>
-            <%= a_pdf.summary %>
-          </td>
-
-          <td>
-            <%= time_ago_in_words(a_pdf.created_at) %> ago
-          </td>
-          <td>
-            <%= time_ago_in_words(a_pdf.updated_at) %> ago
-          </td>
-
-          <td>
-            <a href="/pdfs/<%= a_pdf.id %>">
-              Show details
-            </a>
-          </td>
-        </tr>
-        <% end %>
-      </table>
     </div>
   </div>
 </div>
-<hr>
+
