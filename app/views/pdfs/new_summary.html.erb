@@ -4,22 +4,29 @@
     New Summary
   </h2>
 
-  <!--upload pdf file form-->
+  <!--UPLOAD PDFs here-->
   <div class="d-flex">
-    <form action="/get_summary" method="post" enctype="multipart/form-data" id="pdfForm">
-        <label for="pdf_file">Upload PDF</label>
-        <input type="file" id="pdf_file" name="pdf_file" accept=".pdf">
-        <button type="button" class="btn btn-outline-dark btn-sm">Get summary</button>
-    </form>
-  
-  <p>or</p>
+    <!--enter pdf link form-->
+    <div class="mb-3>
+      <form action="/create_summary" method="post" id="pdfUrlForm">
+          <label for="url_box">Enter PDF URL</label>
+          <input type="url" id="url_box" name="pdf_url" placeholder="https://example.com">
+          <button type="button" class="btn btn-outline-dark btn-sm">Get summary</button>
+      </form>
+    </div>
 
-  <!--enter pdf link form-->
-    <form action="/create_summary" method="post" id="pdfUrlForm">
-        <label for="url_box">PDF URL</label>
-        <input type="url" id="url_box" name="pdf_url" placeholder="https://example.com">
-        <button type="button" class="btn btn-outline-dark btn-sm">Get summary</button>
-    </form>
+    <div class="my=2 mx-3">
+      <p>or</p>
+    </div>
+
+    <!--upload pdf file form-->
+    <div class="mr-3">
+      <form action="/get_summary" method="post" enctype="multipart/form-data" id="pdfForm">
+          <label for="pdf_file">upload file</label>
+          <input type="file" id="pdf_file" name="pdf_file" accept=".pdf">
+          <button type="button" class="btn btn-outline-dark btn-sm">Get summary</button>
+      </form>
+    </div>
   </div>
 
   <!--Empty read-only text box for summary-->
@@ -75,7 +82,7 @@
           <option value="color3">Orange</option>
       </select>
       <br>
-      <button type="button" class="btn btn-outline-dark"> Save summary </button>
+      <button type="button" class="btn btn-outline-dark btn-lg"> Save </button>
     </form>
   </div>
 
