@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   get("/new", {:controller=>"pdfs", :action=>"new_summary"})
   post("/create_summary", { :controller => "pdfs", :action => "create_summary" })
   get("/start_new_summary", { :controller => "pdfs", :action => "start_new_summary" })
+  post("/update_pdf", { :controller => "pdfs", :action => "update_pdf"})
 
   # Routes for the Tag resource:
 

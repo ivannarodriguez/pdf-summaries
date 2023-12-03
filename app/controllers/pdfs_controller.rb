@@ -61,6 +61,65 @@ class PdfsController < ApplicationController
     redirect_to("/new")
   end
 
+  def update_pdf
+    pdf = Pdf.find_by(:id => params[:pdf_id])
+    return redirect_to(root_path, :alert => "PDF not found.") unless pdf
+  
+    pdf.title = params[:pdf_title]
+  
+    if params[:new_tag_name].present?
+      tag_name = params[:new_tag_name]
+      tag = current_user.tags.find_or_create_by(:name => tag_name)
+    elsif params[:existing_tag_id].present?
+      tag = current_user.tags.find(params[:existing_tag_id])
+    end
+  
+    if tag
+      tag.color = params[:tag_color]
+      tag.save
+      pdf.tags << tag unless pdf.tags.include?(tag)
+    end
+  
+    pdf.saved = true
+  
+    if pdf.save
+      redirect_to(root_path, :notice => "PDF updated successfully.")
+    else
+      redirect_to("/new", :alert => pdf.errors.full_messages.to_sentence)
+    end
+  end
+end  
+
+
+#   def update_pdf
+#     pdf = Pdf.find_by(id: params[:pdf_id])
+#     return redirect_to root_path, alert: "PDF not found." unless pdf
+
+#     # Update the PDF title
+#     pdf.title = params[:pdf_title]
+
+#     # # Handle the tag
+#     # tag_name = params[:tag_name] == 'enterNew' ? params[:new_tag_name] : Tag.find(params[:tag_name]).name
+
+#     tag = current_user.tags.find_or_create_by(name: params[:tag_name])
+#     tag.color = params[:tag_color]
+#     tag.save
+
+#     # Associate the PDF with the tag
+#     pdf.tags << tag unless pdf.tags.include?(tag)
+
+#     # Set the PDF as saved
+#     pdf.saved = true
+
+#     if pdf.save
+#       redirect_to root_path, notice: "PDF updated successfully."
+#     else
+#       redirect_to "/new", alert: pdf.errors.full_messages.to_sentence
+#     end
+#   end
+# end
+
+
   # def get_summary
   #   @pdf_url = params[:pdf_url]
   #   session[:pdf_url] = @pdf_url
@@ -117,4 +176,3 @@ class PdfsController < ApplicationController
   #   the_pdf.destroy
   #   redirect_to("/pdfs", { :notice => "Pdf deleted successfully."} )
   # end
-end

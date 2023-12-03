@@ -54,7 +54,10 @@
 
   <!-- SAVE PDF + TAGS -->
   <div class="text-center mb-3">
-    <form action="/save_summary" method="post">
+    <form action="/update_pdf" method="post">
+      <!-- store pdf id in hidden field to be able to retrieve -->
+      <input type="hidden" name="pdf_id" value="<%= @pdf_id %>">
+
       <!-- pdf title -->
       <label for="title_box">PDF Title</label>
       <input type="text" id="title_box" name="pdf_title">
@@ -79,9 +82,10 @@
       <!-- second dropdown-- tag color without "Enter New" option -->
       <label for="tag-color-dropdown">Topic tag color:</label>
       <select id="tag-color-dropdown" name="tag_color">
-          <option value="color1">Blue</option>
-          <option value="color2">Green</option>
-          <option value="color3">Orange</option>
+          <option value="blue">Blue</option>
+          <option value="green">Green</option>
+          <option value="orange">Orange</option>
+          <option value="purple">Purple</option>
       </select>
       <br>
       <button type="submit" class="btn btn-outline-dark btn-lg"> Save </button>
