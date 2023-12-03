@@ -3,6 +3,7 @@
 # Table name: pdfs
 #
 #  id         :integer          not null, primary key
+#  saved      :boolean          default(FALSE)
 #  summary    :string
 #  title      :string
 #  url        :string
@@ -22,4 +23,5 @@ class Pdf < ApplicationRecord
   belongs_to :user
   has_many :pdf_tags
   has_many :tags, through: :pdf_tags
+  attribute :saved, :boolean, default: false
 end

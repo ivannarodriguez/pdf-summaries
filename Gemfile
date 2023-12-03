@@ -88,6 +88,7 @@ gem "ruby-openai"
 
 # pdf reader
 gem "pdf-reader"
+gem "open-uri"
 
 group :development do
   gem "annotate"

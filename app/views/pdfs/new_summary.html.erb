@@ -7,11 +7,11 @@
   <!--UPLOAD PDFs here-->
   <div class="d-flex">
     <!--enter pdf link form-->
-    <div class="mb-3>
+    <div class="mb-3">
       <form action="/create_summary" method="post" id="pdfUrlForm">
-          <label for="url_box">Enter PDF URL</label>
-          <input type="url" id="url_box" name="pdf_url" placeholder="https://example.com">
-          <button type="button" class="btn btn-outline-dark btn-sm">Get summary</button>
+        <label for="url_box">Enter PDF URL</label>
+        <input type="url" id="url_box" name="pdf_url" placeholder="https://example.com" value="<%= @pdf_url %>">
+        <button type="sumbit" class="btn btn-outline-dark btn-sm">Get summary</button>
       </form>
     </div>
 
@@ -24,7 +24,7 @@
       <form action="/get_summary" method="post" enctype="multipart/form-data" id="pdfForm">
           <label for="pdf_file">upload file</label>
           <input type="file" id="pdf_file" name="pdf_file" accept=".pdf">
-          <button type="button" class="btn btn-outline-dark btn-sm">Get summary</button>
+          <button type="submit" class="btn btn-outline-dark btn-sm">Get summary</button>
       </form>
     </div>
   </div>
@@ -41,7 +41,7 @@
   <% if @pdf_url.present? %>
     <div class="text-center mb-3">
       <textarea rows="9" style="width: 100%;" id="summary_textbox" readonly name="summary_text">
-        <%=@pdf_url%>
+        <%=@extracted_text%> <!-- this is not working -->
       </textarea>
     </div>
   <% else %>
@@ -82,7 +82,7 @@
           <option value="color3">Orange</option>
       </select>
       <br>
-      <button type="button" class="btn btn-outline-dark btn-lg"> Save </button>
+      <button type="submit" class="btn btn-outline-dark btn-lg"> Save </button>
     </form>
   </div>
 

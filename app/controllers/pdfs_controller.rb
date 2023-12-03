@@ -1,4 +1,5 @@
-require 'pdf/reader'
+require 'pdf-reader'
+require 'open-uri'
 
 class PdfsController < ApplicationController
   before_action :authenticate_user!
@@ -12,17 +13,31 @@ class PdfsController < ApplicationController
   def new_summary
     @list_of_tags = current_user.tags
     @pdf_url = session[:pdf_url]
+    @extracted_text = session[:extracted_text]
     render({:template => "pdfs/new_summary"})
   end
 
   def create_summary
     @pdf_url = params[:pdf_url]
     session[:pdf_url] = @pdf_url
+
+    if @pdf_url.present?
+      begin
+      io = URI.open(@pdf_url)
+      reader = PDF::Reader.new(io)
+      text_content = reader.pages.map(&:text).join("\n")
+      session[:extracted_text] = text_content
+
+      rescue StandardError => e
+        @error_message = "Error processing PDF: #{e.message}"
+      end
+    end
     redirect_to("/new")
   end
 
   def start_new_summary
     session.store(:pdf_url, nil)
+    session.store(:extracted_text, nil)
     redirect_to("/new")
   end
 
