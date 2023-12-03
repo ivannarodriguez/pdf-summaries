@@ -9,7 +9,7 @@
     <form action="/get_summary" method="post" enctype="multipart/form-data" id="pdfForm">
         <label for="pdf_file">Upload PDF</label>
         <input type="file" id="pdf_file" name="pdf_file" accept=".pdf">
-        <button>Get summary</button>
+        <button type="button" class="btn btn-outline-dark btn-sm">Get summary</button>
     </form>
   </div>
   <p>or</p>
@@ -18,7 +18,7 @@
     <form action="/create_summary" method="post" id="pdfUrlForm">
         <label for="url_box">PDF URL</label>
         <input type="url" id="url_box" name="pdf_url" placeholder="https://example.com">
-        <button>Get summary</button>
+        <button type="button" class="btn btn-outline-dark btn-sm">Get summary</button>
     </form>
   </div>
 
@@ -75,7 +75,7 @@
           <option value="color3">Orange</option>
       </select>
       <br>
-      <button> Save summary </button>
+      <button type="button" class="btn btn-outline-dark"> Save summary </button>
     </form>
   </div>
 
