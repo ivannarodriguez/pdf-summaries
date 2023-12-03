@@ -41,7 +41,9 @@
   <% if @pdf_url.present? %>
     <div class="text-center mb-3">
       <textarea rows="9" style="width: 100%;" id="summary_textbox" readonly name="summary_text">
-        <%=@extracted_text%> <!-- this is not working -->
+        <%= @pdf_id%>
+        <%= @pdf_url%>
+        <%= @extracted_text %> <!-- this is not working -->
       </textarea>
     </div>
   <% else %>
