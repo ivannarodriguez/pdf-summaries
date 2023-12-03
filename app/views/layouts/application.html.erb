@@ -13,13 +13,19 @@
   </head>
 
   <body>
-    <nav>
+    <nav class="navbar navbar-dark bg-dark">
       <% if current_user != nil %>
-        <a href="/users/sign_out">Sign Out</a>
-        <a href="/users/edit_profile">Edit Profile</a>
+        <div class="d-flex">
+          <a href="/users/sign_out" class="text-white">Sign Out</a>
+          <div class="mx-2 text-white">|</div>
+          <a href="/users/edit_profile" class="text-white">Edit Profile</a>
+        </div>
       <% else %>
-        <a href="/users/sign_up">Sign Up</a>
-        <a href="/users/sign_in">Sign in</a>
+        <div class="d-flex">
+          <a href="/users/sign_up" class="text-white">Sign Up</a>
+          <div class="mx-2 text-white">|</div>
+          <a href="/users/sign_in" class="text-white">Sign in</a>
+        </div>
       <% end %>
     </nav>
 
