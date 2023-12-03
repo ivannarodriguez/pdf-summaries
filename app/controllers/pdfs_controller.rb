@@ -5,7 +5,7 @@ class PdfsController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    matching_pdfs = Pdf.includes(:tags).where({:saved => true, :user_id => current_user.id})
+    matching_pdfs = Pdf.includes(:tags).where({ :saved => true, :user_id => current_user.id})
     @list_of_pdfs = matching_pdfs.order({ :created_at => :desc })
     render({ :template => "pdfs/index" })
   end
@@ -13,7 +13,7 @@ class PdfsController < ApplicationController
   def new_summary
     @list_of_tags = current_user.tags
     @pdf_url = session[:pdf_url]
-    @pdf_id = session.fetch(:pdf_id, nil)
+    @pdf_id = session.fetch(:pdf_id, nil) # at the start when /new gets rendered, pdf_id doesnt exist
     if @pdf_id.present?
       the_pdf = Pdf.where({ :id => @pdf_id }).at(0)
       @extracted_text = the_pdf.parsed_text if the_pdf.present?
@@ -24,28 +24,32 @@ class PdfsController < ApplicationController
   def create_summary
     @pdf_url = params[:pdf_url]
     session[:pdf_url] = @pdf_url
-  
+    
+    # parse pdf from url
     if @pdf_url.present?
       begin
         io = URI.open(@pdf_url)
         reader = PDF::Reader.new(io)
         text_content = reader.pages.map(&:text).join("\n")
-        
+
+        # -----------
+        # create new pdf belonging to current user
         the_pdf = current_user.pdfs.new
         the_pdf.url = @pdf_url
         the_pdf.parsed_text = text_content
-
+        the_pdf.save
+      
         if the_pdf.save
-          session[:pdf_id] = the_pdf.id
+          session.store(:pdf_id, the_pdf.id)
           redirect_to("/new")
         else
-          # if save fails, log errors and redirect with an error message
-          Rails.logger.info("PDF Save Error: #{the_pdf.errors.full_messages.join(', ')}")
+          # log the full error messages
+          Rails.logger.info(the_pdf.errors.full_messages)
           redirect_to("/new", alert: "Failed to save PDF. Please try again.")
         end
 
       rescue StandardError => e
-        # if any other error occurs, log it and redirect with an error message
+        # this suggested by chatgpt, need to check usefulness
         Rails.logger.error("PDF Processing Error: #{e.message}")
         redirect_to("/new", alert: "Error processing PDF: #{e.message}")
       end
@@ -56,123 +60,51 @@ class PdfsController < ApplicationController
   end
 
   def start_new_summary
+    # reset the session so these are removed and aren't displayed on html
     session.store(:pdf_url, nil)
     session.store(:extracted_text, nil)
     redirect_to("/new")
   end
 
   def update_pdf
-    pdf = Pdf.find_by(:id => params[:pdf_id])
-    return redirect_to(root_path, :alert => "PDF not found.") unless pdf
-  
-    pdf.title = params[:pdf_title]
-  
-    if params[:new_tag_name].present?
-      tag_name = params[:new_tag_name]
-      tag = current_user.tags.find_or_create_by(:name => tag_name)
-    elsif params[:existing_tag_id].present?
-      tag = current_user.tags.find(params[:existing_tag_id])
+    the_pdf = Pdf.where(:id => params[:pdf_id])[0]
+    
+    if the_pdf.nil?
+      redirect_to("/new", :alert => "PDF not found.")      
     end
-  
-    if tag
-      tag.color = params[:tag_color]
-      tag.save
-      pdf.tags << tag unless pdf.tags.include?(tag)
-    end
-  
-    pdf.saved = true
-  
-    if pdf.save
-      redirect_to(root_path, :notice => "PDF updated successfully.")
+
+    # update pdf attributes
+    the_pdf.title = params[:pdf_title]
+
+    # # store tag in database
+    # if params[:existing_tag_name]
+
+
+    tag_name_input = params[:tag_name]
+    tag_color_input = params[:tag_color]
+
+    matching_tags = Tag.where({ :name => tag_name_input })
+    
+    if matching_tags.count > 0 # check if tag already present
+      the_tag = matching_tags[0]
     else
-      redirect_to("/new", :alert => pdf.errors.full_messages.to_sentence)
+      the_tag = Tag.new
+      the_tag.name = tag_name_input
     end
+
+    the_tag.color = tag_color_input
+    the_tag.save!
+
+    # create association between pdf and tag
+    new_pdf_tag = PdfTag.new
+    new_pdf_tag.pdf_id = the_pdf.id
+    new_pdf_tag.tag_id = the_tag.id
+    new_pdf_tag.save!
+
+    # change pdf saved attribute to true
+    the_pdf.saved = true
+    the_pdf.save!
+
+    redirect_to(root_path, :notice => "PDF updated successfully.")
   end
 end  
-
-
-#   def update_pdf
-#     pdf = Pdf.find_by(id: params[:pdf_id])
-#     return redirect_to root_path, alert: "PDF not found." unless pdf
-
-#     # Update the PDF title
-#     pdf.title = params[:pdf_title]
-
-#     # # Handle the tag
-#     # tag_name = params[:tag_name] == 'enterNew' ? params[:new_tag_name] : Tag.find(params[:tag_name]).name
-
-#     tag = current_user.tags.find_or_create_by(name: params[:tag_name])
-#     tag.color = params[:tag_color]
-#     tag.save
-
-#     # Associate the PDF with the tag
-#     pdf.tags << tag unless pdf.tags.include?(tag)
-
-#     # Set the PDF as saved
-#     pdf.saved = true
-
-#     if pdf.save
-#       redirect_to root_path, notice: "PDF updated successfully."
-#     else
-#       redirect_to "/new", alert: pdf.errors.full_messages.to_sentence
-#     end
-#   end
-# end
-
-
-  # def get_summary
-  #   @pdf_url = params[:pdf_url]
-  #   session[:pdf_url] = @pdf_url
-  #   redirect_to("/new/summary")
-  # end
-
-  # def show_summary
-  #   @pdf_url = session[:pdf_url]
-  #   render({:template => "pdfs/new_summary_final"})
-  # end
-
-      # # --- if the user inputs a pdf url then this
-    # @pdf_url = params[:pdf_url]
-    # @list_of_tags = current_user.tags
-
-    # if params[:pdf_file].present?
-    #   @pdf_file = params[:pdf_file]
-  
-    #   reader = PDF::Reader.new(@pdf_file.tempfile)
-    #   @text = ""
-  
-    #   reader.pages.each do |page|
-    #     @text += page.text
-    #   end
-    # else
-    #   flash[:error] = "No file uploaded"
-    # end
-
-  # def show
-  #   the_id = params.fetch("path_id")
-  #   matching_pdfs = Pdf.where({ :id => the_id })
-  #   @the_pdf = matching_pdfs.at(0)
-  #   render({ :template => "pdfs/show" })
-  # end
-
-  # def update
-  #   the_id = params.fetch("path_id")
-  #   the_pdf = Pdf.where({ :id => the_id }).at(0)
-  #   the_pdf.title = params.fetch("query_title")
-  #   the_pdf.url = params.fetch("query_url")
-  #   the_pdf.summary = params.fetch("query_summary")
-
-  #   if the_pdf.valid?
-  #     the_pdf.save
-  #     redirect_to("/pdfs/#{the_pdf.id}", { :notice => "Pdf updated successfully."} )
-  #   else
-  #     redirect_to("/pdfs/#{the_pdf.id}", { :alert => the_pdf.errors.full_messages.to_sentence })
-  #   end
-  # end
-
-  # def destroy
-  #   the_id = params.fetch("path_id")
-  #   the_pdf = Pdf.where({ :id => the_id }).at(0)
-  #   the_pdf.destroy
-  #   redirect_to("/pdfs", { :notice => "Pdf deleted successfully."} )
-  # end
