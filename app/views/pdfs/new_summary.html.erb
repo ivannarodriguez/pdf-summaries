@@ -66,17 +66,14 @@
       <!-- first dropdown-- tag title with "Enter New" option -->
       <label for="tag-name-dropdown">Topic tag:</label>
       <select id="tag-name-dropdown" name="tag_name" onchange="checkEnterNew(this)">
-        <% if @list_of_tags.present? %>
-          <% @list_of_tags.each do |a_tag| %>
-            <option value="<%= a_tag.name %>"><%= a_tag.name %></option>
-          <% end %>
+        <% @list_of_tags.each do |a_tag| %>
+          <option value="<%= a_tag.name %>"><%= a_tag.name %></option>
         <% end %>
-        <option value="example-tag">example tag</option>
         <option value="enterNew">Enter New:</option>
       </select>
 
-      <!-- Input field for manual entry, initially hidden -->
-      <input type="text" id="newOption" style="display:none;">
+      <!-- input field for manual entry, initially hidden -->
+      <input type="text" id="newOption" name="new_tag_name" style="display:none;">
       <br>
 
       <!-- second dropdown-- tag color without "Enter New" option -->
@@ -95,9 +92,8 @@
 </div>
 
 <script>
-  // JavaScript function to show/hide the manual entry field based on the selected option
-function checkEnterNew(selectElement) {
-  var newOptionField = document.getElementById('newOption');
-  newOptionField.style.display = (selectElement.value === 'enterNew') ? 'inline-block' : 'none';
-}
+  function checkEnterNew(selectElement) {
+    var newOptionField = document.getElementById('newOption');
+    newOptionField.style.display = (selectElement.value === 'enterNew') ? 'inline-block' : 'none';
+  }
 </script>
