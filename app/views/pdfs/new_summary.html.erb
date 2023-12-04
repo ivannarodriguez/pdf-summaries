@@ -8,7 +8,7 @@
   <div class="d-flex">
     <!--enter pdf link form-->
     <div class="mb-3">
-      <form action="/create_summary" method="post" id="pdfUrlForm">
+      <form action="/create_summary" method="post" id="pdfUrlForm" class="form-inline">
         <label for="url_box">Enter PDF URL</label>
         <input type="url" id="url_box" name="pdf_url" placeholder="https://example.com" value="<%= @pdf_url %>">
         <button type="sumbit" class="btn btn-outline-dark btn-sm">Get summary</button>
@@ -21,7 +21,7 @@
 
     <!--upload pdf file form-->
     <div class="mr-3">
-      <form action="/get_summary" method="post" enctype="multipart/form-data" id="pdfForm">
+      <form action="/get_summary" method="post" enctype="multipart/form-data" id="pdfForm" class="form-inline">
           <label for="pdf_file">upload file</label>
           <input type="file" id="pdf_file" name="pdf_file" accept=".pdf">
           <button type="submit" class="btn btn-outline-dark btn-sm">Get summary</button>
@@ -53,43 +53,55 @@
   <% end %>
 
   <!-- SAVE PDF + TAGS -->
-  <div class="text-center mb-3">
-    <form action="/update_pdf" method="post">
-      <!-- store pdf id in hidden field to be able to retrieve -->
-      <input type="hidden" name="pdf_id" value="<%= @pdf_id %>">
+  <div class="container text-center mt-3">
+    <div class="row justify-content-center">
+      <div class="col-md-5">
+        <form action="/update_pdf" method="post">
+        
+          <!-- store pdf id in hidden field to be able to retrieve -->
+          <input type="hidden" name="pdf_id" value="<%= @pdf_id %>" class="form-control form-control-sm">
 
-      <!-- pdf title -->
-      <label for="title_box">PDF Title</label>
-      <input type="text" id="title_box" name="pdf_title">
-      <br>
+          <!-- pdf title -->
+          <div class="form-group row">
+            <label for="title_box" class="col-sm-3 col-form-label">PDF Title</label>
+            <div class="col-sm-9">
+              <input type="text" id="title_box" name="pdf_title" class="form-control form-control-sm">
+            </div>
+          </div>
 
-      <!-- first dropdown-- tag title with "Enter New" option -->
-      <label for="tag-name-dropdown">Topic tag:</label>
-      <select id="tag-name-dropdown" name="tag_name" onchange="checkEnterNew(this)">
-        <% @list_of_tags.each do |a_tag| %>
-          <option value="<%= a_tag.name %>"><%= a_tag.name %></option>
-        <% end %>
-        <option disabled selected>Select existing tag or enter new</option>
-        <option value="enterNew">Enter New:</option>
-      </select>
+          <!-- first dropdown-- tag title with "Enter New" option -->
+          <div class="form-group row">
+            <label for="tag-name-dropdown" class="col-sm-3 col-form-label">Topic tag</label>
+            <div class="col-sm-9">
+              <select id="tag-name-dropdown" name="tag_name" onchange="checkEnterNew(this)" class="form-control form-control-sm">
+                <% @list_of_tags.each do |a_tag| %>
+                  <option value="<%= a_tag.name %>"><%= a_tag.name %></option>
+                <% end %>
+                <option disabled selected>Select existing tag or enter new</option>
+                <option value="enterNew">Enter New:</option>
+              </select>
+              <input type="text" id="newOption" name="new_tag_name" style="display:none;" class="form-control form-control-sm">
+            </div>
+          </div>
 
-      <!-- input field for manual entry, initially hidden -->
-      <input type="text" id="newOption" name="new_tag_name" style="display:none;">
-      <br>
+          <!-- second dropdown-- tag color without "Enter New" option -->
+          <div class="form-group row">
+            <label for="tag-color-dropdown" class="col-sm-4 col-form-label">Topic tag color</label>
+            <div class="col-sm-8">
+              <select id="tag-color-dropdown" name="tag_color" class="form-control form-control-sm">
+                  <option value="blue">Blue</option>
+                  <option value="green">Green</option>
+                  <option value="orange">Orange</option>
+                  <option value="purple">Purple</option>
+              </select>
+            </div>
+          </div>
 
-      <!-- second dropdown-- tag color without "Enter New" option -->
-      <label for="tag-color-dropdown">Topic tag color:</label>
-      <select id="tag-color-dropdown" name="tag_color">
-          <option value="blue">Blue</option>
-          <option value="green">Green</option>
-          <option value="orange">Orange</option>
-          <option value="purple">Purple</option>
-      </select>
-      <br>
-      <button type="submit" class="btn btn-outline-dark btn-lg"> Save </button>
-    </form>
+          <button type="submit" class="btn btn-outline-dark btn-lg"> Save </button>
+          </div>
+        </form>
+    </div>
   </div>
-
 </div>
 
 <script>

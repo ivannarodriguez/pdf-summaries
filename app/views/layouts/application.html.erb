@@ -6,20 +6,20 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-hm36k/ATqgMQ5lA+dL+3p3WSqKZZSeXbZgQxQlXkRSJoZPkrR8ypkzfdPqM1dZ2N" crossorigin="anonymous"></script>
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
   </head>
 
   <body>
     <nav class="navbar navbar-dark bg-dark">
       <% if current_user != nil %>
-        <div class="d-flex ml-4">
-          <a href="/users/sign_out" class="text-white">Sign Out</a>
-          <div class="mx-2 text-white">|</div>
-          <a href="/users/edit_profile" class="text-white">Edit Profile</a>
-          <div class="mx-2 text-white">|</div>
+        <div class="d-flex mx-4">
+          <a href="/users/sign_out" class="text-white ml-4">Sign Out</a>
+          <div class="text-white mx-1">|</div>
+<!--          <a href="/users/edit_profile" class="text-white">Edit Profile</a>-->
+<!--          <div class="mx-2 text-white">|</div>-->
           <a href="/" class="text-white">Library</a>
         </div>
       <% else %>

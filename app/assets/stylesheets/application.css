@@ -13,3 +13,15 @@
  *= require_tree .
  *= require_self
  */
+/* Custom Styles */
+.form-control {
+  border-color: #000000; /* Black border color */
+}
+
+.form-control:focus {
+  box-shadow: 0 0 0 0.2rem rgba(0, 0, 0, 0.25); /* Shadow with a bit of transparency */
+}
+
+.form-control:hover {
+  border-color: #808080; /* Gray border color on hover */
+}

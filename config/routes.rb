@@ -6,6 +6,8 @@ Rails.application.routes.draw do
   post("/create_summary", { :controller => "pdfs", :action => "create_summary" })
   get("/start_new_summary", { :controller => "pdfs", :action => "start_new_summary" })
   post("/update_pdf", { :controller => "pdfs", :action => "update_pdf"})
+  get("/pdfs/:pdf_id", { :controller => "pdfs", :action => "destroy" })
+
 
   # Routes for the Tag resource:
 
@@ -39,8 +41,8 @@ Rails.application.routes.draw do
   
   post("/modify_pdf_tag/:path_id", { :controller => "pdf_tags", :action => "update" })
   
-  # DELETE
-  get("/delete_pdf_tag/:path_id", { :controller => "pdf_tags", :action => "destroy" })
+  # # DELETE
+  # get("/delete_pdf_tag/:path_id", { :controller => "pdf_tags", :action => "destroy" })
 
 
   #------------------------------

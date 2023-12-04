@@ -40,7 +40,7 @@ class PdfsController < ApplicationController
 
         # check if parsed text is Nil and throw an alert
         if !text_content.present?
-          redirect_to("/new", alert: "Unable to parse PDF")
+          redirect_to("/new", {:alert => "Unable to parse PDF"})
         end
       
         if the_pdf.save
@@ -49,17 +49,17 @@ class PdfsController < ApplicationController
         else
           # log the full error messages
           Rails.logger.info(the_pdf.errors.full_messages)
-          redirect_to("/new", alert: "Failed to save PDF. Please try again.")
+          redirect_to("/new", {:alert => "Failed to save PDF. Please try again."})
         end
 
       rescue StandardError => e
         # suggested by chatgpt
         Rails.logger.error("PDF Processing Error: #{e.message}")
-        redirect_to("/new", alert: "Error processing PDF: #{e.message}")
+        redirect_to("/new", {:alert => "Error processing PDF: #{e.message}"})
       end
     else
       # if no URL is provided, redirect back with a message
-      redirect_to("/new", alert: "Please provide a valid PDF URL.")
+      redirect_to("/new", {:alert => "Please provide a valid PDF URL."})
     end
   end
 
@@ -74,7 +74,7 @@ class PdfsController < ApplicationController
     the_pdf = Pdf.where(:id => params[:pdf_id])[0]
     
     if the_pdf.nil?
-      redirect_to("/new", :alert => "PDF not found.")      
+      redirect_to("/new", {:alert => "PDF not found."})      
     end
 
     # update pdf attributes
@@ -108,6 +108,13 @@ class PdfsController < ApplicationController
     the_pdf.saved = true
     the_pdf.save!
 
-    redirect_to("/", :notice => "PDF updated successfully.")
+    redirect_to("/", {:notice => "PDF updated successfully."})
+  end
+
+  def destroy
+    the_id = params[:pdf_id]
+    the_pdf = Pdf.where({ :id => the_id })[0]
+    the_pdf.destroy
+    redirect_to("/", {:notice => "Summary deleted successfully."})
   end
 end  

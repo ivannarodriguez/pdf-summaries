@@ -22,7 +22,7 @@
 #
 class Pdf < ApplicationRecord
   belongs_to :user
-  has_many :pdf_tags
+  has_many :pdf_tags, dependent: :destroy
   has_many :tags, through: :pdf_tags
   attribute :saved, :boolean, default: false
   attribute :parsed_text, :text

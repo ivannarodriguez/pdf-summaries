@@ -12,12 +12,12 @@
     <div>
       <table class="table table-responsive">
         <tr>
-          <th>Tags</th>
-          <th>Title</th>
-          <th>URL</th>
-          <th>Summary</th>
-          <th>Updated at</th>
-          <th></th>
+          <th class="col-2">Tags</th>
+          <th class="col-4">Title</th>
+          <th class="col-3">URL</th>
+          <th class="col-4">Summary</th>
+          <th class="col-2">Updated at</th>
+          <th class="col-2"></th>
         </tr>
 
       <% @list_of_pdfs.each do |a_pdf| %>
@@ -30,7 +30,7 @@
           <% end %>
         </td>
         <td><%= a_pdf.title %></td>
-        <td><%= a_pdf.url %></td>
+        <td><a href="<%= a_pdf.url %>">View PDF</a></td>
         <td><%= a_pdf.summary %></td>
         <td><%= time_ago_in_words(a_pdf.updated_at) %> ago</td>
         <td>
@@ -43,4 +43,3 @@
     </div>
   </div>
 </div>
-
