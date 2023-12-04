@@ -20,8 +20,8 @@ class TagsController < ApplicationController
 
   def create
     the_tag = Tag.new
-    the_tag.name = params.fetch("query_name")
-    the_tag.color = params.fetch("query_color")
+    the_tag.name = params.fetch("tag_name")
+    the_tag.color = params.fetch("tag_color")
 
     if the_tag.valid?
       the_tag.save

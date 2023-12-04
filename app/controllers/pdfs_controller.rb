@@ -76,26 +76,25 @@ class PdfsController < ApplicationController
     # update pdf attributes
     the_pdf.title = params[:pdf_title]
 
-    # # store tag in database
-    # if params[:existing_tag_name]
-
-
-    tag_name_input = params[:tag_name]
-    tag_color_input = params[:tag_color]
-
-    matching_tags = Tag.where({ :name => tag_name_input })
-    
-    if matching_tags.count > 0 # check if tag already present
-      the_tag = matching_tags[0]
+    if params[:tag_name] == 'enterNew'
+      tag_name_input = params[:new_tag_name]
     else
-      the_tag = Tag.new
-      the_tag.name = tag_name_input
+      tag_name_input = params[:tag_name]
     end
 
-    the_tag.color = tag_color_input
-    the_tag.save!
+    tag_color_input = params[:tag_color]
 
-    # create association between pdf and tag
+    matching_tags = Tag.where({ :name => tag_name_input, :user_id => current_user.id })
+    
+    if matching_tags.any? # check if tag already present
+      the_tag = matching_tags[0]
+    else
+      the_tag = current_user.tags.new
+      the_tag.name = tag_name_input
+      the_tag.color = tag_color_input
+      the_tag.save
+    end
+
     new_pdf_tag = PdfTag.new
     new_pdf_tag.pdf_id = the_pdf.id
     new_pdf_tag.tag_id = the_tag.id
