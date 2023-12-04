@@ -43,7 +43,7 @@
       <textarea rows="9" style="width: 100%;" id="summary_textbox" readonly name="summary_text">
         <%= @pdf_id%>
         <%= @pdf_url%>
-        <%= @extracted_text %> <!-- this is not working -->
+        <%= @extracted_text %>
       </textarea>
     </div>
   <% else %>
@@ -69,6 +69,7 @@
         <% @list_of_tags.each do |a_tag| %>
           <option value="<%= a_tag.name %>"><%= a_tag.name %></option>
         <% end %>
+        <option disabled selected>Select existing tag or enter new</option>
         <option value="enterNew">Enter New:</option>
       </select>
 

@@ -15,7 +15,7 @@ class PdfsController < ApplicationController
     @pdf_url = session[:pdf_url]
     @pdf_id = session.fetch(:pdf_id, nil) # at the start when /new gets rendered, pdf_id doesnt exist
     if @pdf_id.present?
-      the_pdf = Pdf.where({ :id => @pdf_id }).at(0)
+      the_pdf = Pdf.where({ :id => @pdf_id })[0]
       @extracted_text = the_pdf.parsed_text if the_pdf.present?
     end
     render({:template => "pdfs/new_summary"})
@@ -32,12 +32,16 @@ class PdfsController < ApplicationController
         reader = PDF::Reader.new(io)
         text_content = reader.pages.map(&:text).join("\n")
 
-        # -----------
         # create new pdf belonging to current user
         the_pdf = current_user.pdfs.new
         the_pdf.url = @pdf_url
         the_pdf.parsed_text = text_content
         the_pdf.save
+
+        # check if parsed text is Nil and throw an alert
+        if !text_content.present?
+          redirect_to("/new", alert: "Unable to parse PDF")
+        end
       
         if the_pdf.save
           session.store(:pdf_id, the_pdf.id)
@@ -49,7 +53,7 @@ class PdfsController < ApplicationController
         end
 
       rescue StandardError => e
-        # this suggested by chatgpt, need to check usefulness
+        # suggested by chatgpt
         Rails.logger.error("PDF Processing Error: #{e.message}")
         redirect_to("/new", alert: "Error processing PDF: #{e.message}")
       end
@@ -104,6 +108,6 @@ class PdfsController < ApplicationController
     the_pdf.saved = true
     the_pdf.save!
 
-    redirect_to(root_path, :notice => "PDF updated successfully.")
+    redirect_to("/", :notice => "PDF updated successfully.")
   end
 end  
