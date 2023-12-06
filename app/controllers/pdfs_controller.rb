@@ -11,6 +11,7 @@ class PdfsController < ApplicationController
     render({ :template => "pdfs/index" })
   end
 
+
   def new_summary
     @list_of_tags = current_user.tags
     @pdf_url = session[:pdf_url]
@@ -22,9 +23,13 @@ class PdfsController < ApplicationController
     render({:template => "pdfs/new_summary"})
   end
 
-  def create_summary
+
+  def get_summary_from_url
+    # delete all pdfs that don't need to be saved
+    current_user.pdfs.where({ saved: false }).destroy_all
+
     @pdf_url = params[:pdf_url]
-    session[:pdf_url] = @pdf_url
+    session[:pdf_url] = @pdf_url # store url in session to be able to retrieve it in save_pdf action
     
     # parse pdf from url
     if @pdf_url.present?
@@ -41,7 +46,7 @@ class PdfsController < ApplicationController
                     here is the text: ''' + text_content
 
         # check if parsed text is Nil and throw an alert
-        if !text_content.present?
+        if text_content.blank?
           redirect_to("/new", {:alert => "Unable to parse PDF"})
         end
 
@@ -90,7 +95,8 @@ class PdfsController < ApplicationController
     redirect_to("/new")
   end
 
-  def update_pdf
+
+  def save_pdf
     the_pdf = Pdf.where(:id => params[:pdf_id])[0]
     
     if the_pdf.nil?
@@ -109,15 +115,15 @@ class PdfsController < ApplicationController
     tag_color_input = params[:tag_color]
 
     matching_tags = Tag.where({ :name => tag_name_input, :user_id => current_user.id })
-    
     if matching_tags.any? # check if tag already present
       the_tag = matching_tags[0]
     else
       the_tag = current_user.tags.new
       the_tag.name = tag_name_input
-      the_tag.color = tag_color_input
-      the_tag.save
     end
+
+    the_tag.color = tag_color_input
+    the_tag.save
 
     new_pdf_tag = PdfTag.new
     new_pdf_tag.pdf_id = the_pdf.id
@@ -134,7 +140,19 @@ class PdfsController < ApplicationController
   def destroy
     the_id = params[:pdf_id]
     the_pdf = Pdf.where({ :id => the_id })[0]
+
+    # destroy any tags that are no longer associated with a pdf
+    the_pdf_tags = the_pdf.tags.to_a
+
     the_pdf.destroy
+
+    the_pdf_tags.each do |a_tag|
+      tag = Tag.where({:id => a_tag.id})[0]
+      if tag.present? && tag.pdfs.empty?
+        tag.destroy
+      end
+    end
+
     redirect_to("/", {:notice => "Summary deleted successfully."})
   end
 end  

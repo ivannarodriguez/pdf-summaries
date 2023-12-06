@@ -8,7 +8,7 @@
   <div class="d-flex">
     <!--enter pdf link form-->
     <div class="mb-3">
-      <form action="/create_summary" method="post" id="pdfUrlForm" class="form-inline">
+      <form action="/get_summary_from_url" method="post" id="pdfUrlForm" class="form-inline">
         <label for="url_box">Enter PDF URL</label>
         <input type="url" id="url_box" name="pdf_url" placeholder="https://example.com" value="<%= @pdf_url %>">
         <button type="sumbit" class="btn btn-outline-dark btn-sm">Get summary</button>
@@ -54,7 +54,7 @@
   <div class="container text-center mt-3">
     <div class="row justify-content-center">
       <div class="col-md-5">
-        <form action="/update_pdf" method="post">
+        <form action="/save_pdf" method="post">
         
           <!-- store pdf id in hidden field to be able to retrieve -->
           <input type="hidden" name="pdf_id" value="<%= @pdf_id %>" class="form-control form-control-sm">

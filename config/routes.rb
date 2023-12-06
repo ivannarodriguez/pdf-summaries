@@ -3,9 +3,9 @@ Rails.application.routes.draw do
   root to: "pdfs#index" # syntax for devise gem for user related info
 
   get("/new", {:controller=>"pdfs", :action=>"new_summary"})
-  post("/create_summary", { :controller => "pdfs", :action => "create_summary" })
+  post("/get_summary_from_url", { :controller => "pdfs", :action => "get_summary_from_url" })
   get("/start_new_summary", { :controller => "pdfs", :action => "start_new_summary" })
-  post("/update_pdf", { :controller => "pdfs", :action => "update_pdf"})
+  post("/save_pdf", { :controller => "pdfs", :action => "save_pdf"})
   get("/pdfs/:pdf_id", { :controller => "pdfs", :action => "destroy" })
 
 
@@ -16,11 +16,9 @@ Rails.application.routes.draw do
           
   # READ
   get("/tags", { :controller => "tags", :action => "index" })
-  
   get("/tags/:path_id", { :controller => "tags", :action => "show" })
   
   # UPDATE
-  
   post("/modify_tag/:path_id", { :controller => "tags", :action => "update" })
   
   # DELETE
@@ -34,11 +32,9 @@ Rails.application.routes.draw do
           
   # READ
   get("/pdf_tags", { :controller => "pdf_tags", :action => "index" })
-  
   get("/pdf_tags/:path_id", { :controller => "pdf_tags", :action => "show" })
   
   # UPDATE
-  
   post("/modify_pdf_tag/:path_id", { :controller => "pdf_tags", :action => "update" })
   
   # # DELETE

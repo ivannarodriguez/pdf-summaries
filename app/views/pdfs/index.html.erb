@@ -1,27 +1,24 @@
-<div class="container mt-4">
+<div class="container mt-5">
 
-  <div class="d-flex justify-content-end">
-    <a href="/start_new_summary" class="btn btn-outline-dark btn-lg">+ Add New Summary</a>
-  </div>
-
-  <div class="mb-4">
-    <h1>My Library</h1>
-  </div>
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h1>My Library</h1>
+  <a href="/start_new_summary" class="btn btn-outline-dark btn-lg">+ Add New Summary</a>
+</div>
 
   <div>
     <div>
       <table class="table table-responsive">
         <tr>
-          <th class="col-2">Tags</th>
-          <th class="col-5">Title</th>
-          <th class="col-3">URL</th>
-          <th class="col-4">Summary</th>
+          <th class="col-2">Article tags</th>
+          <th class="col-4">Article title</th>
+          <th class="col-2">URL</th>
+          <th class="col-2">Summary</th>
           <th class="col-3">Updated</th>
           <th class="col-2"></th>
         </tr>
 
       <% @list_of_pdfs.each do |a_pdf| %>
-        <!-- Modal -->
+        <!-- summary modal -->
         <div class="modal fade" id="summaryModal<%= a_pdf.id %>" tabindex="-1" role="dialog" aria-labelledby="summaryModalLabel" aria-hidden="true">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -40,6 +37,8 @@
             </div>
           </div>
         </div>
+
+        
       
       <tr>
         <td>
@@ -50,7 +49,7 @@
           <% end %>
         </td>
         <td><%= a_pdf.title %></td>
-        <td><a href="<%= a_pdf.url %>">View PDF</a></td>
+        <td><a href="<%= a_pdf.url %>" target="_blank">View PDF</a></td>
         <td><a href="#" class="view-summary-link" data-toggle="modal" data-target="#summaryModal<%= a_pdf.id %>">View summary</a></td>
         <td><%= time_ago_in_words(a_pdf.updated_at) %> ago</td>
         <td>
