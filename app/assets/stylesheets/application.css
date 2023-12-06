@@ -25,3 +25,19 @@
 .form-control:hover {
   border-color: #808080; /* Gray border color on hover */
 }
+
+.tight-label {
+  margin-right: -12px; /* Reduce right margin of label */
+}
+
+.tight-input {
+  margin-left: -12px; /* Reduce left margin of input */
+}
+
+/* for modal */
+.modal-header .close {
+  background-color: transparent;
+  border: none;
+  color: #000; /* Change the color to your preferred text color */
+  opacity: 1; /* Ensure the X is fully visible */
+}

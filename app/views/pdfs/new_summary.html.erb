@@ -41,9 +41,7 @@
   <% if @pdf_url.present? %>
     <div class="text-center mb-3">
       <textarea rows="9" style="width: 100%;" id="summary_textbox" readonly name="summary_text">
-        <%= @pdf_id%>
-        <%= @pdf_url%>
-        <%= @extracted_text %>
+        <%= @text_summary %>
       </textarea>
     </div>
   <% else %>
@@ -62,37 +60,39 @@
           <input type="hidden" name="pdf_id" value="<%= @pdf_id %>" class="form-control form-control-sm">
 
           <!-- pdf title -->
-          <div class="form-group row">
-            <label for="title_box" class="col-sm-3 col-form-label">PDF Title</label>
-            <div class="col-sm-9">
+          <div class="form-group row align-items-center">
+            <label for="title_box" class="col-sm-3 col-form-label tight-label">Article title</label>
+            <div class="col-sm-9 tight-input">
               <input type="text" id="title_box" name="pdf_title" class="form-control form-control-sm">
             </div>
           </div>
 
           <!-- first dropdown-- tag title with "Enter New" option -->
-          <div class="form-group row">
-            <label for="tag-name-dropdown" class="col-sm-3 col-form-label">Topic tag</label>
+          <div class="form-group row align-items-center">
+            <label for="tag-name-dropdown" class="col-sm-3 col-form-label tight-label">Article tag</label>
             <div class="col-sm-9">
-              <select id="tag-name-dropdown" name="tag_name" onchange="checkEnterNew(this)" class="form-control form-control-sm">
+              <select id="tag-name-dropdown" name="tag_name" onchange="checkEnterNew(this)" class="form-control form-control-sm tight-input">
                 <% @list_of_tags.each do |a_tag| %>
                   <option value="<%= a_tag.name %>"><%= a_tag.name %></option>
                 <% end %>
                 <option disabled selected>Select existing tag or enter new</option>
-                <option value="enterNew">Enter New:</option>
+                <option value="enterNew">Enter new:</option>
               </select>
-              <input type="text" id="newOption" name="new_tag_name" style="display:none;" class="form-control form-control-sm">
+              <input type="text" id="newOption" name="new_tag_name" style="display:none;" class="form-control form-control-sm tight-input">
             </div>
           </div>
 
           <!-- second dropdown-- tag color without "Enter New" option -->
-          <div class="form-group row">
-            <label for="tag-color-dropdown" class="col-sm-4 col-form-label">Topic tag color</label>
+          <div class="form-group row align-items-center">
+            <label for="tag-color-dropdown" class="col-sm-4 col-form-label tight-label">Article tag color</label>
             <div class="col-sm-8">
-              <select id="tag-color-dropdown" name="tag_color" class="form-control form-control-sm">
+              <select id="tag-color-dropdown" name="tag_color" class="form-control form-control-sm tight-input">
+                  <option disabled selected>Select color</option>
+                  <option value="purple">Purple</option>
+                  <option value="orange">Orange</option>
                   <option value="blue">Blue</option>
                   <option value="green">Green</option>
-                  <option value="orange">Orange</option>
-                  <option value="purple">Purple</option>
+                  <option value="salmon">Salmon</option>
               </select>
             </div>
           </div>

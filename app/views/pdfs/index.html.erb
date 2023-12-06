@@ -4,7 +4,7 @@
     <a href="/start_new_summary" class="btn btn-outline-dark btn-lg">+ Add New Summary</a>
   </div>
 
-  <div>
+  <div class="mb-4">
     <h1>My Library</h1>
   </div>
 
@@ -13,14 +13,34 @@
       <table class="table table-responsive">
         <tr>
           <th class="col-2">Tags</th>
-          <th class="col-4">Title</th>
+          <th class="col-5">Title</th>
           <th class="col-3">URL</th>
           <th class="col-4">Summary</th>
-          <th class="col-2">Updated at</th>
+          <th class="col-3">Updated</th>
           <th class="col-2"></th>
         </tr>
 
       <% @list_of_pdfs.each do |a_pdf| %>
+        <!-- Modal -->
+        <div class="modal fade" id="summaryModal<%= a_pdf.id %>" tabindex="-1" role="dialog" aria-labelledby="summaryModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="summaryModalLabel">Summary</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <%= a_pdf.summary %>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      
       <tr>
         <td>
           <% a_pdf.tags.each do |tag| %>
@@ -31,7 +51,7 @@
         </td>
         <td><%= a_pdf.title %></td>
         <td><a href="<%= a_pdf.url %>">View PDF</a></td>
-        <td><%= a_pdf.summary %></td>
+        <td><a href="#" class="view-summary-link" data-toggle="modal" data-target="#summaryModal<%= a_pdf.id %>">View summary</a></td>
         <td><%= time_ago_in_words(a_pdf.updated_at) %> ago</td>
         <td>
           <a href="/pdfs/<%= a_pdf.id %>">Delete</a>
@@ -43,3 +63,12 @@
     </div>
   </div>
 </div>
+
+<script>
+  $(document).ready(function () {
+    $('.view-summary-link').click(function () {
+      var targetModalId = $(this).data('target');
+      $(targetModalId).modal('show');
+    });
+  });
+</script>

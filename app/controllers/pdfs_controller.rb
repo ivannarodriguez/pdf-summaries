@@ -1,5 +1,6 @@
 require 'pdf-reader'
 require 'open-uri'
+require 'openai'
 
 class PdfsController < ApplicationController
   before_action :authenticate_user!
@@ -16,7 +17,7 @@ class PdfsController < ApplicationController
     @pdf_id = session.fetch(:pdf_id, nil) # at the start when /new gets rendered, pdf_id doesnt exist
     if @pdf_id.present?
       the_pdf = Pdf.where({ :id => @pdf_id })[0]
-      @extracted_text = the_pdf.parsed_text if the_pdf.present?
+      @text_summary = the_pdf.summary if the_pdf.present?
     end
     render({:template => "pdfs/new_summary"})
   end
@@ -31,17 +32,36 @@ class PdfsController < ApplicationController
         io = URI.open(@pdf_url)
         reader = PDF::Reader.new(io)
         text_content = reader.pages.map(&:text).join("\n")
+        text_content = text_content.gsub(/\s+/, ' ')
 
-        # create new pdf belonging to current user
-        the_pdf = current_user.pdfs.new
-        the_pdf.url = @pdf_url
-        the_pdf.parsed_text = text_content
-        the_pdf.save
+        message = '''Please concisely summarize the text i will be giving you, in at most two short paragraphs. the text
+                    you are receiving is parsed from a PDF that is likely a research paper. As such, your
+                    brief summary should include: the main idea of the PDF, the research question, the main
+                    findings, and a brief sentence of the methodology. make this summary as concise as possible.
+                    here is the text: ''' + text_content
 
         # check if parsed text is Nil and throw an alert
         if !text_content.present?
           redirect_to("/new", {:alert => "Unable to parse PDF"})
         end
+
+        # initialize openai client
+        client = OpenAI::Client.new
+        response = client.chat(
+            parameters: {
+                model: "gpt-3.5-turbo", # Required.
+                messages: [{ role: "user", content: message}], # Required.
+                temperature: 0.7,
+            })
+
+        text_summary = response["choices"][0]["message"]["content"]
+
+        # create new pdf belonging to current user
+        the_pdf = current_user.pdfs.new
+        the_pdf.url = @pdf_url
+        the_pdf.parsed_text = text_content
+        the_pdf.summary = text_summary
+        the_pdf.save
       
         if the_pdf.save
           session.store(:pdf_id, the_pdf.id)
@@ -66,7 +86,7 @@ class PdfsController < ApplicationController
   def start_new_summary
     # reset the session so these are removed and aren't displayed on html
     session.store(:pdf_url, nil)
-    session.store(:extracted_text, nil)
+    session.store(:text_summary, nil)
     redirect_to("/new")
   end
 
