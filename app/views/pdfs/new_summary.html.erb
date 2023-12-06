@@ -1,106 +1,87 @@
 <div class="container mt-4">
+  <div class="row">
+    <div class="col-md-7">
+      <h1 class="mb-3">
+        New Summary
+      </h2>
 
-  <h2 class="text-center mb-3">
-    New Summary
-  </h2>
+      <!--UPLOAD PDFs here-->
+        <!--enter pdf link form-->
+        <div class="mb-3">
+          <form action="/get_summary_from_url" method="post" id="pdfUrlForm" class="form-inline">
+            <label for="url_box">Enter PDF URL</label>
+            <input type="url" id="url_box" name="pdf_url" placeholder="https://example.com" value="<%= @pdf_url %>">
+            <button type="sumbit" class="btn btn-outline-dark btn-sm">Get summary</button>
+          </form>
+        </div>
 
-  <!--UPLOAD PDFs here-->
-  <div class="d-flex">
-    <!--enter pdf link form-->
-    <div class="mb-3">
-      <form action="/get_summary_from_url" method="post" id="pdfUrlForm" class="form-inline">
-        <label for="url_box">Enter PDF URL</label>
-        <input type="url" id="url_box" name="pdf_url" placeholder="https://example.com" value="<%= @pdf_url %>">
-        <button type="sumbit" class="btn btn-outline-dark btn-sm">Get summary</button>
-      </form>
+      <!--Empty read-only text box for summary-->
+      <% if @pdf_url.present? %>
+        <div class="textarea-container">
+          <textarea style="width: 100%; height:100%" id="summary_textbox" readonly name="summary_text">
+            <%= @text_summary %>
+          </textarea>
+        </div>
+      <% else %>
+        <div class="textarea-container">
+          <textarea style="width: 100%" id="summary_textbox" readonly name="summary_text" placeholder="Summary will be displayed here..."></textarea>
+        </div>
+      <% end %>
     </div>
 
-    <div class="my=2 mx-3">
-      <p>or</p>
-    </div>
-
-    <!--upload pdf file form-->
-    <div class="mr-3">
-      <form action="/get_summary" method="post" enctype="multipart/form-data" id="pdfForm" class="form-inline">
-          <label for="pdf_file">upload file</label>
-          <input type="file" id="pdf_file" name="pdf_file" accept=".pdf">
-          <button type="submit" class="btn btn-outline-dark btn-sm">Get summary</button>
-      </form>
+  <div class="container h-100 d-flex align-items-center">
+    <div class="row justify-content-center w-100">
+      <div class="col-md-5">
+        <!-- SAVE PDF + TAGS -->
+        <div class="container text-center mt-3">
+          <div class="row justify-content-center">
+            <h4 class="row justify-content-left mb-3">Save summary</h4>
+            <form action="/save_pdf" method="post">
+              <!-- store pdf id in hidden field to be able to retrieve -->
+              <input type="hidden" name="pdf_id" value="<%= @pdf_id %>" class="form-control form-control-sm">
+              <!-- pdf title -->
+              <div class="form-group row align-items-center">
+                <label for="title_box" class="col-sm-3 col-form-label tight-label">Article title</label>
+                <div class="col-sm-9 tight-input">
+                  <input type="text" id="title_box" name="pdf_title" class="form-control form-control-sm">
+                </div>
+              </div>
+              <!-- first dropdown-- tag title with "Enter New" option -->
+              <div class="form-group row align-items-center">
+                <label for="tag-name-dropdown" class="col-sm-3 col-form-label tight-label">Article tag</label>
+                <div class="col-sm-9">
+                  <select id="tag-name-dropdown" name="tag_name" onchange="checkEnterNew(this)" class="form-control form-control-sm tight-input">
+                    <% @list_of_tags.each do |a_tag| %>
+                      <option value="<%= a_tag.name %>"><%= a_tag.name %></option>
+                    <% end %>
+                    <option disabled selected>Select existing tag or enter new</option>
+                    <option value="enterNew">Enter new:</option>
+                  </select>
+                  <input type="text" id="newOption" name="new_tag_name" style="display:none;" class="form-control form-control-sm tight-input">
+                </div>
+              </div>
+              <!-- second dropdown-- tag color without "Enter New" option -->
+              <div class="form-group row align-items-center">
+                <label for="tag-color-dropdown" class="col-sm-4 col-form-label tight-label">Article tag color</label>
+                <div class="col-sm-8">
+                  <select id="tag-color-dropdown" name="tag_color" class="form-control form-control-sm tight-input">
+                      <option disabled selected>Select color</option>
+                      <option value="purple">Purple</option>
+                      <option value="orange">Orange</option>
+                      <option value="blue">Blue</option>
+                      <option value="green">Green</option>
+                      <option value="salmon">Salmon</option>
+                  </select>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-outline-dark btn-lg"> Save </button>
+              </div>
+            </form>
+        </div>
+      </div>
     </div>
   </div>
-
-  <!--Empty read-only text box for summary-->
-  <!-- 
-      make this change based on param values so you can render the same page 
-      so, you'd add an ifelse to check it the param values are empty. if they are,
-      then just display the read only box. if they are not (i.e. user has input a pdf
-      link) then display the contents in a new textbox, and this will happen every time the
-      get summary button is clicked. 
-  -->
-
-  <% if @pdf_url.present? %>
-    <div class="text-center mb-3">
-      <textarea rows="9" style="width: 100%;" id="summary_textbox" readonly name="summary_text">
-        <%= @text_summary %>
-      </textarea>
-    </div>
-  <% else %>
-    <div class="text-center mb-3">
-      <textarea rows="9" style="width: 100%;" id="summary_textbox" readonly name="summary_text" placeholder="Summary will be displayed here..."></textarea>
-    </div>
-  <% end %>
-
-  <!-- SAVE PDF + TAGS -->
-  <div class="container text-center mt-3">
-    <div class="row justify-content-center">
-      <div class="col-md-5">
-        <form action="/save_pdf" method="post">
-        
-          <!-- store pdf id in hidden field to be able to retrieve -->
-          <input type="hidden" name="pdf_id" value="<%= @pdf_id %>" class="form-control form-control-sm">
-
-          <!-- pdf title -->
-          <div class="form-group row align-items-center">
-            <label for="title_box" class="col-sm-3 col-form-label tight-label">Article title</label>
-            <div class="col-sm-9 tight-input">
-              <input type="text" id="title_box" name="pdf_title" class="form-control form-control-sm">
-            </div>
-          </div>
-
-          <!-- first dropdown-- tag title with "Enter New" option -->
-          <div class="form-group row align-items-center">
-            <label for="tag-name-dropdown" class="col-sm-3 col-form-label tight-label">Article tag</label>
-            <div class="col-sm-9">
-              <select id="tag-name-dropdown" name="tag_name" onchange="checkEnterNew(this)" class="form-control form-control-sm tight-input">
-                <% @list_of_tags.each do |a_tag| %>
-                  <option value="<%= a_tag.name %>"><%= a_tag.name %></option>
-                <% end %>
-                <option disabled selected>Select existing tag or enter new</option>
-                <option value="enterNew">Enter new:</option>
-              </select>
-              <input type="text" id="newOption" name="new_tag_name" style="display:none;" class="form-control form-control-sm tight-input">
-            </div>
-          </div>
-
-          <!-- second dropdown-- tag color without "Enter New" option -->
-          <div class="form-group row align-items-center">
-            <label for="tag-color-dropdown" class="col-sm-4 col-form-label tight-label">Article tag color</label>
-            <div class="col-sm-8">
-              <select id="tag-color-dropdown" name="tag_color" class="form-control form-control-sm tight-input">
-                  <option disabled selected>Select color</option>
-                  <option value="purple">Purple</option>
-                  <option value="orange">Orange</option>
-                  <option value="blue">Blue</option>
-                  <option value="green">Green</option>
-                  <option value="salmon">Salmon</option>
-              </select>
-            </div>
-          </div>
-
-          <button type="submit" class="btn btn-outline-dark btn-lg"> Save </button>
-          </div>
-        </form>
-    </div>
+  
   </div>
 </div>
 

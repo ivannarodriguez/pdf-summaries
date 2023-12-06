@@ -13,7 +13,7 @@
           <th class="col-4">Article title</th>
           <th class="col-2">URL</th>
           <th class="col-2">Summary</th>
-          <th class="col-3">Updated</th>
+          <th class="col-3">Created</th>
           <th class="col-2"></th>
         </tr>
 
@@ -51,7 +51,7 @@
         <td><%= a_pdf.title %></td>
         <td><a href="<%= a_pdf.url %>" target="_blank">View PDF</a></td>
         <td><a href="#" class="view-summary-link" data-toggle="modal" data-target="#summaryModal<%= a_pdf.id %>">View summary</a></td>
-        <td><%= time_ago_in_words(a_pdf.updated_at) %> ago</td>
+        <td><%= time_ago_in_words(a_pdf.created_at) %> ago</td>
         <td>
           <a href="/pdfs/<%= a_pdf.id %>">Delete</a>
         </td>

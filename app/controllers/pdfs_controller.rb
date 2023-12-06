@@ -155,4 +155,5 @@ class PdfsController < ApplicationController
 
     redirect_to("/", {:notice => "Summary deleted successfully."})
   end
+
 end  

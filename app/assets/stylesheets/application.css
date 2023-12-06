@@ -41,3 +41,12 @@
   color: #000; /* Change the color to your preferred text color */
   opacity: 1; /* Ensure the X is fully visible */
 }
+
+/* text box displaying summary */
+.textarea-container {
+  height: 60vh; /* Adjust the height as needed */
+}
+
+.textarea-container textarea {
+  height: 100%;
+}
