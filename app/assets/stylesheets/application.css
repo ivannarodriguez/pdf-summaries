@@ -15,10 +15,6 @@
  */
 /* Custom Styles */
 
-.modal-header, .modal-footer {
-  border: none;
-}
-
 .form-control:focus {
   border-color: #000000; /* Black border color on focus */
   box-shadow: 0 0 0 0.2rem rgba(0, 0, 0, 0.25); /* Shadow with a bit of transparency */
