@@ -60,6 +60,7 @@ class PdfsController < ApplicationController
             })
 
         text_summary = response["choices"][0]["message"]["content"]
+        text_summary = text_summary.sub(/\A\s*/, '') # remove indentation
 
         # create new pdf belonging to current user
         the_pdf = current_user.pdfs.new

@@ -19,20 +19,18 @@
 
       <% @list_of_pdfs.each do |a_pdf| %>
         <!-- summary modal -->
-        <div class="modal fade" id="summaryModal<%= a_pdf.id %>" tabindex="-1" role="dialog" aria-labelledby="summaryModalLabel" aria-hidden="true">
+        <div class="modal fade" id="summaryModal<%= a_pdf.id %>" tabindex="-1" aria-labelledby="summaryModalLabel<%= a_pdf.id %>" aria-hidden="true">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title" id="summaryModalLabel">Summary</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
+                <h5 class="modal-title" id="summaryModalLabel<%= a_pdf.id %>">Summary</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
                 <%= a_pdf.summary %>
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
               </div>
             </div>
           </div>
@@ -50,7 +48,7 @@
         </td>
         <td><%= a_pdf.title %></td>
         <td><a href="<%= a_pdf.url %>" target="_blank">View PDF</a></td>
-        <td><a href="#" class="view-summary-link" data-toggle="modal" data-target="#summaryModal<%= a_pdf.id %>">View summary</a></td>
+        <td><a href="#" class="view-summary-link" data-bs-toggle="modal" data-bs-target="#summaryModal<%= a_pdf.id %>">View summary</a></td>
         <td><%= time_ago_in_words(a_pdf.created_at) %> ago</td>
         <td>
           <a href="/pdfs/<%= a_pdf.id %>">Delete</a>
@@ -62,12 +60,3 @@
     </div>
   </div>
 </div>
-
-<script>
-  $(document).ready(function () {
-    $('.view-summary-link').click(function () {
-      var targetModalId = $(this).data('target');
-      $(targetModalId).modal('show');
-    });
-  });
-</script>
