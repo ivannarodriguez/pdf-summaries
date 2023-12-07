@@ -79,3 +79,11 @@ textarea:focus {
   color: white; /* Text color on hover */
   border: 1px solid white; /* Border color on hover */
 }
+
+svg {
+  color: #9b9999; /* This sets the fill color to black for all SVGs */
+}
+
+svg:hover {
+  color: black; /* This changes the fill color to gray when any SVG is hovered */
+}
