@@ -1,33 +1,27 @@
 <div class="d-flex align-items-center justify-content-center vh-100">
-  <div class="login-container mb-3 p-3"> <!-- Added padding to the container -->
-    <h2 class="mb-3">Log in</h2> <!-- Added margin-bottom to the heading -->
-
+  <div class="container p-3 login-container login-box">
+    <h2 class="text-center mb-4">Log in</h2>
     <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-      <div class="form-inputs mb-3"> <!-- Added margin-bottom to the form inputs -->
+      <div class="form-inputs mb-3">
+        <%= f.input :email,
+                    required: false,
+                    autofocus: true,
+                    input_html: { autocomplete: "email", class: 'form-control', style: "margin-bottom: 15px;" } %>
+        <%= f.input :password,
+                    required: false,
+                    input_html: { autocomplete: "current-password", class: 'form-control', style: "margin-bottom: 15px;" } %>
+        <div class="form-check mb-3 d-flex">
+          <%= f.check_box :remember_me, class: 'form-check-input' %>
+          <label class="form-check-label" for="user_remember_me" style="margin-left: 5px;">Remember me</label>
+        </div>
 
-          <%= f.input :email,
-                      required: false,
-                      autofocus: true,
-                      input_html: { autocomplete: "email" },
-                      class: 'form-control mb-4 w-100' %>
-
-          <%= f.input :password,
-                      required: false,
-                      input_html: { autocomplete: "current-password" },
-                      class: 'form-control mb-4 w-100' %>
-
-          <%= f.input :remember_me, as: :boolean, if: devise_mapping.rememberable?,
-                      label: "Remember me",
-                      class: 'form-check-input' %>
-      </div>
-
-      <div class="form-actions">
-        <%= button_tag(type: 'submit', class: 'btn btn-outline-dark btn-block') do %>
-          Log in
-        <% end %>
+        <div class="form-actions">
+          <%= button_tag(type: 'submit', class: 'btn btn-outline-dark btn-block w-100') do %>
+            Log in
+          <% end %>
+        </div>
       </div>
     <% end %>
-
     <%= render "devise/shared/links" %>
   </div>
 </div>

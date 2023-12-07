@@ -83,3 +83,8 @@ svg {
 svg:hover {
   color: black; /* This changes the fill color to gray when any SVG is hovered */
 }
+
+.login-box {
+  max-width: 340px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); 
+}
