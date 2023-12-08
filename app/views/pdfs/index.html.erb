@@ -11,8 +11,8 @@
         <tr>
           <th class="col-2">Article tags</th>
           <th class="col-4">Article title</th>
-          <th class="col-1">URL</th>
           <th class="col-2">Summary</th>
+          <th class="col-1">URL</th>
           <th class="col-2">Created</th>
           <th class="col-1"></th>
         </tr>
@@ -47,8 +47,8 @@
           <% end %>
         </td>
         <td><%= a_pdf.title %></td>
-        <td><a href="<%= a_pdf.url %>" target="_blank">View PDF</a></td>
         <td><a href="#" class="view-summary-link" data-bs-toggle="modal" data-bs-target="#summaryModal<%= a_pdf.id %>">View summary</a></td>
+        <td><a href="<%= a_pdf.url %>" target="_blank">View PDF</a></td>
         <td><%= time_ago_in_words(a_pdf.created_at) %> ago</td>
         <td>
           <div>

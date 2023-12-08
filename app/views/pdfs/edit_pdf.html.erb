@@ -43,3 +43,10 @@
     </div>
   </div>
 </div>
+
+<script>
+  function checkEnterNew(selectElement) {
+    var newOptionField = document.getElementById('newOption');
+    newOptionField.style.display = (selectElement.value === 'enterNew') ? 'inline-block' : 'none';
+  }
+</script>

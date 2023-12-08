@@ -17,7 +17,7 @@
     <div class="container-fluid">
       <% if current_user != nil %>
         <div class="navbar-nav me-auto">
-          <a href="/" class="nav-link btn btn-sm" style="color: white; font-weight: bold;">My Library</a>
+          <a href="/" class="nav-link btn btn-sm" style="color: white; font-weight: bold;">My PDF Library</a>
           <a href="#" class="nav-link btn btn-sm" data-bs-toggle="modal" data-bs-target="#instructionModal">Help</a>
         </div>
         <div class="navbar-nav ms-auto">
@@ -25,7 +25,7 @@
         </div>
       <% else %>
         <div class="navbar-nav me-auto">
-          <a href="/" class="nav-link btn btn-sm" style="color: white; font-weight: bold;">My Library</a>
+          <a href="/" class="nav-link btn btn-sm" style="color: white; font-weight: bold;">My PDF Library</a>
           <a href="#" class="nav-link btn btn-sm" onclick="alert('You need to be logged in to view the help information on how to use the app.'); return false;">Help</a>
         </div>
         <div class="navbar-nav ms-auto">
@@ -47,7 +47,7 @@
           </div>
           <div class="modal-body">
             <!-- Insert your instructions here -->
-            <h6>My Library</h6>
+            <h6>My PDF Library</h6>
             <p>This is the app's homepage, where all your saved PDF summaries and their respective tags will appear in list form.</p>
             <h6>Create new summary</h6>
             <p>To summarize a PDF, click on the <span class="btn btn-sm btn-outline-dark", style="cursor: default;"> + Add New Summary</span> 
