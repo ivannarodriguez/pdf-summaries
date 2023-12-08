@@ -87,6 +87,7 @@ class PdfsController < ApplicationController
       # if no URL is provided, redirect back with a message
       redirect_to("/new", {:alert => "Please provide a valid PDF URL."})
     end
+    session[:text_summary] = nil
   end
 
 

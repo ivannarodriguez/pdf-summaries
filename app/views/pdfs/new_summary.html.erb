@@ -65,11 +65,9 @@
                 <div class="col-sm-8">
                   <select id="tag-color-dropdown" name="tag_color" class="form-control form-control-sm tight-input">
                       <option disabled selected>Select color</option>
-                      <option value="purple">Purple</option>
-                      <option value="chocolate">Orange</option>
-                      <option value="steelblue">Blue</option>
-                      <option value="darkseagreen">Green</option>
-                      <option value="salmon">Salmon</option>
+                    <% ['chocolate', 'rosybrown', 'darksalmon', 'steelblue', 'cadetblue', 'darkseagreen', 'purple', 'mediumpurple'].each do |color| %>
+                      <option value="<%= color %>"><%= color.capitalize %></option>
+                    <% end %>
                   </select>
                 </div>
               </div>
