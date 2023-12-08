@@ -1,0 +1,45 @@
+<div class="d-flex align-items-center justify-content-center vh-100">
+  <div class="container p-3 edit-box" style="max-width: 500px;">
+    
+    <h3 class="text-center mb-4">Edit article summary</h3>
+
+    <div class="form-inputs mb-3">
+      <form action="/update_pdf/<%= @the_pdf.id %>" method="post">
+        <!-- pdf title -->
+        <div class="form-group row align-items-center">
+          <label for="title_box" class="col-sm-4 col-form-label">New article title</label>
+          <div class="col-sm-15">
+            <input type="text" id="title_box" name="new_pdf_title" value="<%= @the_pdf.title %>" class="form-control">
+          </div>
+        </div>
+        <!-- first dropdown-- tag title with "Enter New" option -->
+        <div class="form-group row align-items-center">
+          <label for="tag-name-dropdown" class="col-sm-4 col-form-label">New article tag</label>
+          <div class="col-sm-15">
+            <select id="tag-name-dropdown" name="new_tag_name" onchange="checkEnterNew(this)" class="form-control">
+              <% @list_of_tags.each do |a_tag| %>
+                <option value="<%= a_tag.name %>" <%= 'selected' if @the_pdf.tags.include?(a_tag) %>><%= a_tag.name %></option>
+              <% end %>
+              <option value="enterNew">Enter new:</option>
+            </select>
+            <input type="text" id="newOption" name="new_new_tag_name" style="display:none;" class="form-control form-control-sm">
+          </div>
+        </div>
+        <!-- second dropdown-- tag color without "Enter New" option -->
+        <div class="form-group row align-items-center">
+          <label for="tag-color-dropdown" class="col-sm-4 col-form-label">New tag color</label>
+          <div class="col-sm-15">
+            <select id="tag-color-dropdown" name="new_tag_color" class="form-control">
+            <% ['chocolate', 'rosybrown', 'darksalmon', 'steelblue', 'cadetblue', 'darkseagreen', 'purple', 'mediumpurple'].each do |color| %>
+              <option value="<%= color %>" <%= 'selected' if @the_pdf.tags.any? { |tag| tag.color == color } %>><%= color.capitalize %></option>
+            <% end %>
+            </select>
+          </div>
+        </div>
+        <div class="d-flex justify-content-center">
+            <button type="submit" class="btn summary-button btn-lg" style="margin-top: 10px;">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

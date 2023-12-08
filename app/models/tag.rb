@@ -18,6 +18,12 @@
 #  user_id  (user_id => users.id)
 #
 class Tag < ApplicationRecord
+  validates(:name, {
+    :presence => true,
+  })
+  validates(:color, {
+    :presence => true,
+  })
   belongs_to :user
   has_many :pdf_tags
   has_many :pdfs, through: :pdf_tags

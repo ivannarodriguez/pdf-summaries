@@ -89,6 +89,7 @@ class PdfsController < ApplicationController
     end
   end
 
+
   def start_new_summary
     # reset the session so these are removed and aren't displayed on html
     session.store(:pdf_url, nil)
@@ -123,6 +124,7 @@ class PdfsController < ApplicationController
       the_tag.name = tag_name_input
     end
 
+    
     the_tag.color = tag_color_input
     the_tag.save
 
@@ -130,13 +132,15 @@ class PdfsController < ApplicationController
     new_pdf_tag.pdf_id = the_pdf.id
     new_pdf_tag.tag_id = the_tag.id
     new_pdf_tag.save!
-
+    
     # change pdf saved attribute to true
     the_pdf.saved = true
     the_pdf.save!
+    
 
     redirect_to("/", {:notice => "PDF updated successfully."})
   end
+
 
   def destroy
     the_id = params[:pdf_id]
@@ -155,6 +159,53 @@ class PdfsController < ApplicationController
     end
 
     redirect_to("/", {:notice => "Summary deleted successfully."})
+  end
+
+
+  def show_update_page
+    input_pdf_id = params[:pdf_id]
+    @the_pdf = Pdf.where({ :id => input_pdf_id })[0]
+    @list_of_tags = current_user.tags
+
+    render({ :template => "pdfs/edit_pdf" })
+  end
+
+
+  def update
+
+    input_pdf_id = params[:pdf_id]
+    new_title = params[:new_pdf_title]
+    new_tag_color = params[:new_tag_color]
+    if params[:new_tag_name] == 'enterNew'
+      new_tag_name = params[:new_new_tag_name]
+    else
+      new_tag_name = params[:new_tag_name]
+    end
+
+    matching_tags = Tag.where({ :name => new_tag_name, :user_id => current_user.id })
+    if matching_tags.any? # check if tag already present
+      the_tag = matching_tags[0]
+    else
+      the_tag = current_user.tags.new
+      the_tag.name = new_tag_name
+    end
+    the_tag.color = new_tag_color
+    the_tag.save
+
+    the_pdf = Pdf.where({ :id => input_pdf_id })[0]
+    the_pdf.title = new_title
+    the_pdf.save
+
+    the_pdf_tag = PdfTag.where({ :pdf => the_pdf })[0]
+    if the_pdf_tag.nil?
+      the_pdf_tag = PdfTag.new
+      the_pdf_tag.pdf = the_pdf
+    end
+
+    the_pdf_tag.tag = the_tag
+    the_pdf_tag.save
+
+    redirect_to("/", {:notice => "Article summary edited successfully."})
   end
 
 end  
